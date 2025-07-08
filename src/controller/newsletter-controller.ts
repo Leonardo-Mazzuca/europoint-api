@@ -1,0 +1,75 @@
+
+import { verifyErrors } from "../helpers";
+import * as NewsLetterService from "../service/newsletter-service";
+import { Request, Response } from "express";
+
+const getAllNewsLetters = async (req:Request, res: Response) => {
+    try {
+        const newsletters = await NewsLetterService.getAllNewsLetters();
+        return res.status(200).json(newsletters);
+    } catch (error) {
+        return res.status(500).json({ message: "Error getting newsletters" });    
+    }
+}
+
+const getSingleNewsLetter = async (req:Request, res: Response) => {
+    try {
+        const {id} = req.params;
+        const newsletter = await NewsLetterService.getSingleNewsLetter(parseInt(id));
+        return res.status(200).json(newsletter);
+    } catch (error) {
+        return res.status(500).json({ message: "Error getting newsletter" });    
+    }
+}
+
+const createNewsLetter = async (req:Request, res: Response) => {
+
+    verifyErrors(req,res);
+
+    try {
+
+        const {area_id, user_id, content, images, title} = req.body;
+        const newNewsLetter = await NewsLetterService.createNewsletter({area_id, user_id, content, images, title});
+        return res.status(201).json(newNewsLetter);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error creating newsletter" });
+    }
+}
+
+const editNewsLetter = async (req:Request, res: Response) => {
+
+    verifyErrors(req,res);
+    
+    try {
+
+        const {id} = req.params;
+        const {total_likes, total_views, content, images, title} = req.body;
+        const newNewsLetter = await NewsLetterService.updateNewsletter(parseInt(id), {total_likes,total_views, content, images, title});
+        return res.status(200).json(newNewsLetter);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error editing newsletter" });
+    }
+
+}
+
+const deleteNewsLetter = async (req:Request, res: Response) => {
+    try {
+
+        const {id} = req.params;
+        const deletedNewsLetter = await NewsLetterService.deleteNewsletter(parseInt(id));
+        return res.status(200).json(deletedNewsLetter);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error deleting newsletter" });
+    }
+}
+
+export {
+    getAllNewsLetters,
+    createNewsLetter,
+    editNewsLetter,
+    deleteNewsLetter,
+    getSingleNewsLetter
+}

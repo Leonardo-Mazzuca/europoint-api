@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   Int           @id @default(autoincrement())
+  email                String        @unique
+  username             String
+  phone_number         String
+  password             String
+  area                 Area          @relation(fields: [area_id], references: [id])
+  area_id              Int
+  saved_posts_ids      Int[]
+  saved_newsletter_ids Int[]
+  saved_projects_ids   Int[]
+  achieviments         Achieviment[]
+  avatar               String? @default("")
+}
+
+model Area {
+  id            Int          @id @default(autoincrement())
+  name          String
+  users         User[]
+  contact_email String
+  posts         Post[]
+  projects      Project[]
+  newsletters   NewsLetter[]
+  teams         Team[]
+}
+
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  user_id     Int
+  area_id     Int
+  area        Area     @relation(fields: [area_id], references: [id])
+  total_likes Int?     @default(0)
+  total_views Int?     @default(0)
+  images      String[]
+}
+
+model Project {
+  id          Int    @id @default(autoincrement())
+  title       String
+  content     String
+  image       String
+  owner_id    Int
+  team_id     Int
+  team        Team   @relation(fields: [team_id], references: [id])
+  members_ids Int[]
+  area        Area   @relation(fields: [area_id], references: [id])
+  area_id     Int
+}
+
+model NewsLetter {
+  id          Int      @id @default(autoincrement())
+  total_likes Int?     @default(0)
+  total_views Int?     @default(0)
+  images      String[]
+  content     String
+  area_id     Int
+  area        Area     @relation(fields: [area_id], references: [id])
+  user_id     Int
+  title       String
+}
+
+model Team {
+  id          Int       @id @default(autoincrement())
+  name        String
+  members_ids Int[]
+  area        Area      @relation(fields: [area_id], references: [id])
+  area_id     Int
+  projects    Project[]
+}
+
+model Program {
+  id          Int    @id @default(autoincrement())
+  title       String
+  description String
+  image       String
+}
+
+model Quiz {
+  id           Int        @id @default(autoincrement())
+  title        String
+  description  String
+  questions    Question[]
+  total_points Int
+  image        String?
+  duration     String
+}
+
+model Question {
+  id             Int              @id @default(autoincrement())
+  title          String
+  correct_answer String
+  quiz_id        Int
+  quiz           Quiz             @relation(fields: [quiz_id], references: [id])
+  options        QuestionOption[]
+}
+
+model QuestionOption {
+  id          Int      @id @default(autoincrement())
+  title       String
+  answer      String
+  question_id Int
+  question    Question @relation(fields: [question_id], references: [id])
+}
+
+model Achieviment {
+  id          Int      @id @default(autoincrement())
+  title       String
+  progress    Int?     @default(0)
+  description String
+  points      Int
+  user_id     Int
+  user        User     @relation(fields: [user_id], references: [id])
+  completed   Boolean? @default(false)
+}
