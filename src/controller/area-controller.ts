@@ -13,6 +13,21 @@ const getAllAreas = async (req:Request, res: Response) => {
     }
 }
 
+const createArea = async (req:Request, res: Response) => {
+    try {
+
+        const {contact_email, name} = req.body;
+        const area_exists = await AreaService.getAreaByName(name);
+
+        if(area_exists) return res.status(400).json({ message: "Area already exists" });
+
+        const area = await AreaService.createArea({name,contact_email});
+        return res.status(200).json(area);
+    } catch (error) {
+        return res.status(500).json({ message: "Error creating area" });    
+    }
+}
+
 const followArea = async (req:Request, res: Response) => {
     try {
 
@@ -22,6 +37,8 @@ const followArea = async (req:Request, res: Response) => {
         return res.status(200).json(followedArea);
         
     } catch (error:any) {
+        console.log(error);
+        
         return res.status(500).json({ message: error.message || "Error following area" });
     }
 }
@@ -42,5 +59,6 @@ const unFollowArea = async (req:Request, res: Response) => {
 export {
     getAllAreas,
     followArea,
-    unFollowArea
+    unFollowArea,
+    createArea
 }

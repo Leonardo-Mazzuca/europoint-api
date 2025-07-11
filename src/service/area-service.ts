@@ -1,9 +1,18 @@
+import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.server";
 import { getUserById } from "./user-service";
 
 export const getAllAreas = async () => {
   return await db.area.findMany();
 };
+
+export const getAreaByName = async (name: string) => {
+  return await db.area.findFirst({
+    where: {
+      name,
+    },
+  });
+}
 
 export const followArea = async (user_id: number, area_id: number) => {
 
@@ -96,4 +105,8 @@ export const unFollowArea = async (user_id: number, area_id: number) => {
       },
     },
   });
+}
+
+export const createArea = ({contact_email,name}:Prisma.AreaCreateInput) => {
+  return db.area.create({data:{name,contact_email}});
 }
