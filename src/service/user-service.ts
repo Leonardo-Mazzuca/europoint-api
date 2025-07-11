@@ -7,7 +7,11 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const getUsers = async () => {
-  return await db.user.findMany();
+  return await db.user.findMany({
+    include: {
+      followed_areas: true
+    }
+  });
 };
 
 export const getUserById = async (id: number) => {
@@ -20,6 +24,7 @@ export const getUserById = async (id: number) => {
           id: true,
         }
       },
+      followed_areas: true
     },
   });
 };
