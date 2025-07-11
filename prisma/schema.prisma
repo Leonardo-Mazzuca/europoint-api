@@ -19,36 +19,44 @@ model User {
   username             String
   phone_number         String
   password             String
+
   area                 Area          @relation(fields: [area_id], references: [id])
   area_id              Int
+
   saved_posts_ids      Int[]
   saved_newsletter_ids Int[]
   saved_projects_ids   Int[]
   achieviments         Achieviment[]
-  avatar               String? @default("")
+  avatar               String?       @default("")
+  posts                Post[]
+  followed_areas       Area[]        @relation("UserFollowsAreas")
 }
 
 model Area {
   id            Int          @id @default(autoincrement())
   name          String
-  users         User[]
   contact_email String
+
+  users         User[]
   posts         Post[]
   projects      Project[]
   newsletters   NewsLetter[]
   teams         Team[]
+  followers     User[]       @relation("UserFollowsAreas")
 }
 
 model Post {
   id          Int      @id @default(autoincrement())
   title       String
   content     String
+  user        User     @relation(fields: [user_id], references: [id])
   user_id     Int
   area_id     Int
   area        Area     @relation(fields: [area_id], references: [id])
   total_likes Int?     @default(0)
   total_views Int?     @default(0)
   images      String[]
+  created_at  DateTime @default(now())
 }
 
 model Project {

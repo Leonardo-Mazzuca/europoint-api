@@ -11,14 +11,23 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+    origin: [
+      'http://localhost:5173',
+      'http://192.168.15.5:8081',
+  ],
+    credentials: true, 
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
 app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
-app.use('/europoint/api/v1/auth',authRouter);
-app.use('/europoint/api/v1',router);
-app.use('/images',express.static(path.join(__dirname, ".." , "uploads")))
+app.use('/api/europoint/v1/auth',authRouter);
+app.use('/api/europoint/v1/images',express.static(path.join(__dirname, ".." , "uploads")))
+app.use('/api/europoint/v1',router);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

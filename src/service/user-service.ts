@@ -11,7 +11,17 @@ export const getUsers = async () => {
 };
 
 export const getUserById = async (id: number) => {
-  return await db.user.findFirst({ where: { id } });
+  return await db.user.findFirst({
+    where: { id },
+    include: {
+      area: {
+        select: {
+          name: true,
+          id: true,
+        }
+      },
+    },
+  });
 };
 
 export const createUser = async ({
@@ -38,14 +48,12 @@ export const createUser = async ({
   });
 };
 
-export const uploadAvatar = async (id:number,avatar:Express.Multer.File) => {
-
+export const uploadAvatar = async (id: number, avatar: Express.Multer.File) => {
   return await db.user.update({
     where: { id },
-    data: { avatar: avatar.path },
+    data: { avatar: avatar.filename },
   });
-  
-}
+};
 
 export const editUser = async (
   id: number,

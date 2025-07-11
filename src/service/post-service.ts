@@ -1,8 +1,33 @@
+
 import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.server";
 
+type CreatePostInput = {
+  title: string;
+  content: string;
+  images: string[];
+  area_id: number;
+  user_id: number;
+};
 const getAllPosts = async () => {
-  return await db.post.findMany();
+  return await db.post.findMany({
+    include: {
+      user: {
+        select: {
+          avatar: true,
+          username: true,
+          id: true
+        }
+      },
+      area: {
+        select: {
+          name: true,
+          id: true,
+          contact_email: true
+        }
+      },
+    }
+  });
 };
 
 const getPostById = async (id: number) => {
@@ -15,14 +40,14 @@ const createPost = async ({
   area_id,
   user_id,
   images,
-}: Prisma.PostCreateWithoutAreaInput & { area_id: number }) => {
+}: CreatePostInput & {user_id: number, area_id: number}) => {
   return await db.post.create({
     data: {
       title,
       content,
       images,
-      user_id,
       area: { connect: { id: area_id } },
+      user: { connect: { id: user_id } },
     },
   });
 };
