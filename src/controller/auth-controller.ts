@@ -20,6 +20,7 @@ const login = async (req: Request, res: Response) => {
 
     const passwordMatch = await compare(password, user.password);
 
+
     if (!passwordMatch) {
       return res.status(401).json({ message: "Incorrect password" });
     }

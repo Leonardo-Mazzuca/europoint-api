@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import * as ProjectService from "../service/project-service";
-import { verifyErrors } from "../helpers";
+import { decodeToken, verifyErrors } from "../helpers";
 const getAllProjects = async (req: Request, res: Response) => {
     try {
 
@@ -8,6 +8,8 @@ const getAllProjects = async (req: Request, res: Response) => {
         return res.status(200).json(projects);
         
     } catch (error) {
+        console.log("Error getting projects: ", error);
+        
         return res.status(500).json({ message: "Error getting projects" });
     }
 }   
@@ -60,8 +62,11 @@ const createProject = async (req: Request, res: Response) => {
 
     try {
 
-        const {title, content, image, members_ids,area_id, team_id, owner_id} = req.body;
-        const project = await ProjectService.createProject({title, content, image, members_ids,area_id,team_id,owner_id});
+        const {title, content, image, members_ids,area_id, team_id} = req.body;
+        
+        const user_id = await decodeToken(req);
+
+        const project = await ProjectService.createProject({title, content, image, members_ids,area_id,team_id,user_id});
         return res.status(201).json(project);
         
     } catch (error) {

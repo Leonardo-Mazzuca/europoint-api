@@ -15,12 +15,6 @@ const projectCreateValidation = [
     .notEmpty()
     .withMessage("content não pode ser vazio"),
 
-  body("owner_id")
-    .exists()
-    .withMessage("owner_id é obrigatório")
-    .isInt({ gt: 0 })
-    .withMessage("owner_id deve ser um número inteiro positivo"),
-
   body("title")
     .exists()
     .withMessage("title é obrigatório")

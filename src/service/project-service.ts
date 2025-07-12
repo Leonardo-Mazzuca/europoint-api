@@ -5,7 +5,7 @@ type CreateProjectInput = {
     area_id: number;
     team_id: number;
     content: string;
-    owner_id: number;
+    user_id: number;
     title: string;
     members_ids: number[];
     image: string;
@@ -13,7 +13,22 @@ type CreateProjectInput = {
   
 
 const getAllProjects = async () => {
-    return await db.project.findMany();
+    return await db.project.findMany({
+      include: {
+        user: {
+          select: {
+            username: true,
+            id: true
+          }
+        },
+        area: {
+          select: {
+            name: true,
+            id: true
+          }
+        }
+      }
+    });
 }
 
 const getSingleProject = async (id: number) => {
@@ -23,7 +38,7 @@ const getSingleProject = async (id: number) => {
 const createProject = async ({
     area_id,
     content,
-    owner_id,
+    user_id,
     title,
     team_id,
     members_ids,
@@ -34,14 +49,17 @@ const createProject = async ({
         title,
         content,
         image,
-        owner_id,
         area: {
           connect: { id: area_id }
         },
         team: {
           connect: { id: team_id }
         },
-        members_ids 
+        user: {
+          connect: { id: user_id }
+        },
+        members_ids,
+        
       }
     });
   };

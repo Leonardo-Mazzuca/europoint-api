@@ -13,7 +13,7 @@ async function seed() {
 
     await db.user.create({
         data: {
-            email: "macucu@email.com",
+            email: "macucu12@email.com",
             password: "123456",
             phone_number: "1111111",
             username: "macucu",

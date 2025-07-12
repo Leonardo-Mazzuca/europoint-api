@@ -30,6 +30,8 @@ model User {
   avatar               String?       @default("")
   posts                Post[]
   followed_areas       Area[]        @relation("UserFollowsAreas")
+  
+  projects             Project[]
 }
 
 model Area {
@@ -64,12 +66,14 @@ model Project {
   title       String
   content     String
   image       String
-  owner_id    Int
+  user        User   @relation(fields: [user_id], references: [id])
+  user_id    Int
   team_id     Int
   team        Team   @relation(fields: [team_id], references: [id])
   members_ids Int[]
   area        Area   @relation(fields: [area_id], references: [id])
   area_id     Int
+  created_at  DateTime @default(now())
 }
 
 model NewsLetter {
