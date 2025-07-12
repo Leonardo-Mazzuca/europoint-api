@@ -72,10 +72,18 @@ const deleteProject = async (id: number) => {
     return await db.project.delete({ where: { id } });
 }
 
+const uploadProjectImage = async (id: number, image: Express.Multer.File) => {
+    return await db.project.update({
+      where: { id },
+      data: { image: image.filename },
+    });
+}
+
 export {
     getAllProjects,
     getSingleProject,
     createProject,
     updateProject,
-    deleteProject
+    deleteProject,
+    uploadProjectImage
 }

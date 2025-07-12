@@ -32,6 +32,7 @@ model User {
   followed_areas       Area[]        @relation("UserFollowsAreas")
   
   projects             Project[]
+  newsletters          NewsLetter[]
 }
 
 model Area {
@@ -84,8 +85,10 @@ model NewsLetter {
   content     String
   area_id     Int
   area        Area     @relation(fields: [area_id], references: [id])
+  user        User     @relation(fields: [user_id], references: [id])
   user_id     Int
   title       String
+  created_at  DateTime @default(now())
 }
 
 model Team {

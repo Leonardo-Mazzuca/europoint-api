@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "NewsLetter" ADD COLUMN     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
+
+-- AddForeignKey
+ALTER TABLE "NewsLetter" ADD CONSTRAINT "NewsLetter_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

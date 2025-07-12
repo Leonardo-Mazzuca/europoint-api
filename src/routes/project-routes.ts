@@ -1,6 +1,7 @@
 import express from "express";
 import * as ProjectController from "../controller/project-controller";
 import * as ProjectValidator from "../validators/project-validator";
+import { projectUploadConfig } from "../config/multer";
 
 export const projectRouter = express.Router();
 
@@ -17,3 +18,9 @@ projectRouter.put(
   ProjectController.updateProject
 );
 projectRouter.delete("/:id", ProjectController.deleteProject);
+
+projectRouter.post(
+  "/image/:id",
+  projectUploadConfig.single("image"),
+  ProjectController.uploadProjectImage
+);

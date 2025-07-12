@@ -76,10 +76,29 @@ const createProject = async (req: Request, res: Response) => {
     }
 }
 
+const uploadProjectImage = async (req: Request, res: Response) => {
+    try {
+
+        const {id} = req.params;
+        const project_image_file = req.file as Express.Multer.File;
+
+        if(!project_image_file){
+            return res.status(400).json({ message: "Project image not found" });
+        }
+        
+        const project = await ProjectService.uploadProjectImage(parseInt(id), project_image_file);
+        return res.status(200).json(project);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error uploading project image" });
+    }
+}
+
 export {
     getAllProjects,
     getSingleProject,
     createProject,
     updateProject,
-    deleteProject
+    deleteProject,
+    uploadProjectImage
 }

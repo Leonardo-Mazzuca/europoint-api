@@ -1,5 +1,5 @@
 
-import { verifyErrors } from "../helpers";
+import { decodeToken, verifyErrors } from "../helpers";
 import * as NewsLetterService from "../service/newsletter-service";
 import { Request, Response } from "express";
 
@@ -28,8 +28,10 @@ const createNewsLetter = async (req:Request, res: Response) => {
 
     try {
 
-        const {area_id, user_id, content, images, title} = req.body;
-        const newNewsLetter = await NewsLetterService.createNewsletter({area_id, user_id, content, images, title});
+        const user_id = await decodeToken(req);
+
+        const {area_id, content, title} = req.body;
+        const newNewsLetter = await NewsLetterService.createNewsletter({area_id, user_id, content, title});
         return res.status(201).json(newNewsLetter);
         
     } catch (error) {
@@ -44,8 +46,8 @@ const editNewsLetter = async (req:Request, res: Response) => {
     try {
 
         const {id} = req.params;
-        const {total_likes, total_views, content, images, title} = req.body;
-        const newNewsLetter = await NewsLetterService.updateNewsletter(parseInt(id), {total_likes,total_views, content, images, title});
+        const {total_likes, total_views, content, title} = req.body;
+        const newNewsLetter = await NewsLetterService.updateNewsletter(parseInt(id), {total_likes,total_views, content, title});
         return res.status(200).json(newNewsLetter);
         
     } catch (error) {
@@ -66,10 +68,26 @@ const deleteNewsLetter = async (req:Request, res: Response) => {
     }
 }
 
+const updateNewsletterImages = (req:Request, res: Response) => {
+    try {
+
+        const {id} = req.params;
+        const images = req.files as Express.Multer.File[];
+        console.log('Arquivos:', images);
+        
+        const newNewsLetter = NewsLetterService.uploadNewsletterImages(parseInt(id), images);
+        return res.status(200).json(newNewsLetter);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error updating newsletter images" });
+    }
+}
+
 export {
     getAllNewsLetters,
     createNewsLetter,
     editNewsLetter,
     deleteNewsLetter,
-    getSingleNewsLetter
+    getSingleNewsLetter,
+    updateNewsletterImages
 }

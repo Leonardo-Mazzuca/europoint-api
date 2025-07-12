@@ -1,6 +1,7 @@
 import express from "express";
 import * as NewsLetterController from "../controller/newsletter-controller";
 import * as PostValidator from "../validators/post-validator";
+import { newsletterUploadConfig } from "../config/multer";
 
 export const newsLetterRouter = express.Router();
 
@@ -17,3 +18,8 @@ newsLetterRouter.put(
   NewsLetterController.editNewsLetter
 );
 newsLetterRouter.delete("/:id", NewsLetterController.deleteNewsLetter);
+newsLetterRouter.post(
+  "/images/:id",
+  newsletterUploadConfig.array("images"),
+  NewsLetterController.updateNewsletterImages
+);
