@@ -30,10 +30,14 @@ const userProfileUpload = multer(createConfig("profile"));
 const postUploadConfig = multer(createConfig("post"));
 const newsletterUploadConfig = multer(createConfig("newsletter"));
 const projectUploadConfig = multer(createConfig("project"));
+const programUploadConfig = multer(createConfig("program"));
+const quizUploadConfig = multer(createConfig("quizzes"));
 
 export {
   userProfileUpload,
   postUploadConfig,
   newsletterUploadConfig,
   projectUploadConfig,
+  programUploadConfig,
+  quizUploadConfig
 };

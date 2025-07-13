@@ -14,14 +14,14 @@ datasource db {
 }
 
 model User {
-  id                   Int           @id @default(autoincrement())
-  email                String        @unique
-  username             String
-  phone_number         String
-  password             String
+  id           Int    @id @default(autoincrement())
+  email        String @unique
+  username     String
+  phone_number String
+  password     String
 
-  area                 Area          @relation(fields: [area_id], references: [id])
-  area_id              Int
+  area    Area @relation(fields: [area_id], references: [id])
+  area_id Int
 
   saved_posts_ids      Int[]
   saved_newsletter_ids Int[]
@@ -30,22 +30,22 @@ model User {
   avatar               String?       @default("")
   posts                Post[]
   followed_areas       Area[]        @relation("UserFollowsAreas")
-  
-  projects             Project[]
-  newsletters          NewsLetter[]
+
+  projects    Project[]
+  newsletters NewsLetter[]
 }
 
 model Area {
-  id            Int          @id @default(autoincrement())
+  id            Int    @id @default(autoincrement())
   name          String
   contact_email String
 
-  users         User[]
-  posts         Post[]
-  projects      Project[]
-  newsletters   NewsLetter[]
-  teams         Team[]
-  followers     User[]       @relation("UserFollowsAreas")
+  users       User[]
+  posts       Post[]
+  projects    Project[]
+  newsletters NewsLetter[]
+  teams       Team[]
+  followers   User[]       @relation("UserFollowsAreas")
 }
 
 model Post {
@@ -63,16 +63,16 @@ model Post {
 }
 
 model Project {
-  id          Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   title       String
   content     String
   image       String
-  user        User   @relation(fields: [user_id], references: [id])
-  user_id    Int
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     Int
   team_id     Int
-  team        Team   @relation(fields: [team_id], references: [id])
+  team        Team     @relation(fields: [team_id], references: [id])
   members_ids Int[]
-  area        Area   @relation(fields: [area_id], references: [id])
+  area        Area     @relation(fields: [area_id], references: [id])
   area_id     Int
   created_at  DateTime @default(now())
 }
@@ -101,10 +101,10 @@ model Team {
 }
 
 model Program {
-  id          Int    @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   title       String
   description String
-  image       String
+  image       String? @default("")
 }
 
 model Quiz {
@@ -115,6 +115,11 @@ model Quiz {
   total_points Int
   image        String?
   duration     String
+  is_running   Boolean?
+  created_at   DateTime @default(now())
+  updated_at   DateTime @default(now())
+  total_answered Int? @default(0)
+  current_question_id Int? @default(0)
 }
 
 model Question {
