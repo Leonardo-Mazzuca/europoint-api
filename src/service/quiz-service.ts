@@ -23,14 +23,13 @@ const createQuiz = async (
   quiz: Prisma.QuizCreateInput,
   questions: CreateQuestionInput
 ) => {
-  const { title, description, duration, total_points } = quiz;
+  const { title, description, duration } = quiz;
 
   const createdQuiz = await db.quiz.create({
     data: {
       title,
       description,
       duration,
-      total_points,
     },
   });
 
@@ -40,6 +39,7 @@ const createQuiz = async (
         title: question.title,
         correct_answer: question.correct_answer,
         quiz: { connect: { id: createdQuiz.id } },
+        total_points: question.total_points
       },
     });
 
@@ -166,4 +166,8 @@ const previousQuestion = async (quiz_id: number) => {
   });
 };
 
-export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion };
+const deleteQuiz = async (quiz_id: number) => {
+  return await db.quiz.delete({ where: { id: quiz_id } });
+};
+
+export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion, deleteQuiz };

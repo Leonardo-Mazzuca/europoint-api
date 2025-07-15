@@ -112,10 +112,9 @@ model Quiz {
   title        String
   description  String
   questions    Question[]
-  total_points Int
-  image        String?
+  image        String? @default("")
   duration     String
-  is_running   Boolean?
+  is_running   Boolean? @default(false)
   created_at   DateTime @default(now())
   updated_at   DateTime @default(now())
   total_answered Int? @default(0)
@@ -127,8 +126,9 @@ model Question {
   title          String
   correct_answer String
   quiz_id        Int
-  quiz           Quiz             @relation(fields: [quiz_id], references: [id])
+  quiz           Quiz             @relation(fields: [quiz_id], references: [id], onDelete: Cascade)
   options        QuestionOption[]
+  total_points   Int @default(0)
 }
 
 model QuestionOption {
@@ -136,7 +136,7 @@ model QuestionOption {
   title       String
   answer      String
   question_id Int
-  question    Question @relation(fields: [question_id], references: [id])
+  question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade)
 }
 
 model Achieviment {

@@ -13,10 +13,10 @@ const getAllQuizzes = async (req: Request, res: Response) => {
 
 const createQuiz = async (req: Request, res: Response) => {
     try {
-        const { title, description, duration, image, total_points, questions } = req.body;
+        const { title, description, duration, image, questions } = req.body;
 
         const newQuiz = await QuizService.createQuiz(
-            { title, description, duration, image, total_points }, 
+            { title, description, duration, image }, 
             questions 
           );
           
@@ -80,11 +80,25 @@ const previousQuestion = async (req:Request,res:Response) => {
     }
 }
 
+const deleteQuiz = async (req:Request,res:Response) => {
+    try {
+        const {id} = req.params;
+        const quiz = await QuizService.deleteQuiz(parseInt(id));
+        return res.status(200).json(quiz);
+        
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error deleting quiz" });
+    }
+}
+
 export {
     getAllQuizzes,
     createQuiz,
     uploadQuizImage,
     startQuiz,
     nextQuestion,
-    previousQuestion
+    previousQuestion,
+    deleteQuiz
 }
