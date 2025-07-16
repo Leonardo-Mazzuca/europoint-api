@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import * as UserService from "../service/user-service";
 import jwt from "jsonwebtoken";
-import { verifyErrors } from "../helpers";
+import { decodeToken, verifyErrors } from "../helpers";
 
 
 
@@ -10,8 +10,8 @@ const editUser = async (req: Request, res: Response) => {
   verifyErrors(req,res);
 
   try {
-    const { id } = req.params;
-    const { email, password, username, phone_number, avatar } = req.body;
+    const user_id = await decodeToken(req);
+    const { email, password, username, phone_number, avatar, total_points } = req.body;
 
     if(email){
       const emailAlreadyExists = await UserService.getUserByEmail(email);
@@ -21,7 +21,7 @@ const editUser = async (req: Request, res: Response) => {
       }
     }
 
-    const user = await UserService.editUser(parseInt(id), { email, password, username, phone_number, avatar });
+    const user = await UserService.editUser(user_id, { email, password, username, phone_number, avatar, total_points });
     return res.status(200).json(user);
   } catch (error) {
     return res.status(500).json({ message: "Error editing user" });
@@ -90,10 +90,29 @@ const updateAvatar = async (req: Request, res: Response) => {
   }
 };
 
+const updateUserPoints = async (req: Request, res: Response) => {
+  try {
+
+    const {points} = req.body;
+    const user_id = await decodeToken(req);
+
+    if(points < 0) {
+      return res.status(400).json({ message: "Points cannot be negative" });
+    }
+
+    const user = await UserService.updateUserPoints(user_id, points);
+    return res.status(200).json(user);
+    
+  } catch (error) {
+    return res.status(500).json({ message: "Error updating user points" });
+  }
+}
+
 export {
   editUser,
   deleleUser,
   getUsers,
   getCurrentUser,
-  updateAvatar
+  updateAvatar,
+  updateUserPoints
 }

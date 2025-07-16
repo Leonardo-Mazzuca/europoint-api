@@ -93,6 +93,19 @@ const deleteQuiz = async (req:Request,res:Response) => {
     }
 }
 
+const discardQuiz = async (req:Request,res:Response) => {
+    try {
+        const {id} = req.params;
+        const quiz = await QuizService.discardQuiz(parseInt(id));
+        return res.status(200).json(quiz);
+        
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error discarding quiz" });
+    }
+}
+
 export {
     getAllQuizzes,
     createQuiz,
@@ -100,5 +113,6 @@ export {
     startQuiz,
     nextQuestion,
     previousQuestion,
-    deleteQuiz
+    deleteQuiz,
+    discardQuiz
 }

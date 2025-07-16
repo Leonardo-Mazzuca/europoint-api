@@ -62,14 +62,21 @@ export const uploadAvatar = async (id: number, avatar: Express.Multer.File) => {
 
 export const editUser = async (
   id: number,
-  { email, password, phone_number, username }: Prisma.UserCreateWithoutAreaInput
+  { email, password, phone_number, username, total_points }: Prisma.UserCreateWithoutAreaInput
 ) => {
   return await db.user.update({
     where: { id },
-    data: { email, password, phone_number, username },
+    data: { email, password, phone_number, username, total_points },
   });
 };
 
 export const deleteUser = async (id: number) => {
   return await db.user.delete({ where: { id } });
 };
+
+export const updateUserPoints = async (id: number, points: number) => {
+  return await db.user.update({
+    where: { id },
+    data: { total_points: {increment: points} },
+  });
+}

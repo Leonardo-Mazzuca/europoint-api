@@ -170,4 +170,11 @@ const deleteQuiz = async (quiz_id: number) => {
   return await db.quiz.delete({ where: { id: quiz_id } });
 };
 
-export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion, deleteQuiz };
+const discardQuiz = async (quiz_id: number) => {
+  return await db.quiz.update({
+    where: { id: quiz_id },
+    data: { is_running: false, current_question_id: 0 },
+  });
+};
+
+export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion, deleteQuiz, discardQuiz };

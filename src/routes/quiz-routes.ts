@@ -12,6 +12,7 @@ quizRouter.post(
   QuizController.uploadQuizImage
 );
 
+quizRouter.put("/discard/:id", QuizController.discardQuiz);
 quizRouter.put("/start/:id", QuizController.startQuiz);
 quizRouter.put("/next/:id", QuizController.nextQuestion);
 quizRouter.put("/prev/:id", QuizController.previousQuestion);

@@ -8,8 +8,9 @@ export const userRouter = express.Router();
 
 userRouter.get("/all", UserController.getUsers);
 userRouter.get("/", UserController.getCurrentUser);
+
 userRouter.put(
-  "/:id",
+  "/",
   UserValidator.userEditValiation,
   UserController.editUser
 );
@@ -19,3 +20,4 @@ userRouter.post(
   userProfileUpload.single("avatar"),
   AuthController.uploadAvatar
 );
+
