@@ -57,13 +57,12 @@ const startQuiz = async (req:Request,res:Response) => {
 
 const nextQuestion = async (req:Request,res:Response) => {
     try {
-
-
         const {id} = req.params;
         const quiz = await QuizService.nextQuestion(parseInt(id));
         return res.status(200).json(quiz);
         
     } catch (error:any) {
+        console.log('Erro passando para proxima pergunta', error);
         return res.status(500).json({ message: error.message || "Error getting next question" });
     }
 }
@@ -106,6 +105,19 @@ const discardQuiz = async (req:Request,res:Response) => {
     }
 }
 
+const endQuiz = async (req:Request,res:Response) => {
+    try {
+        const {id} = req.params;
+        const quiz = await QuizService.finishQuiz(parseInt(id));
+        return res.status(200).json(quiz);
+        
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error ending quiz" });
+    }
+}
+
 export {
     getAllQuizzes,
     createQuiz,
@@ -114,5 +126,6 @@ export {
     nextQuestion,
     previousQuestion,
     deleteQuiz,
-    discardQuiz
+    discardQuiz,
+    endQuiz
 }

@@ -8,6 +8,9 @@ const getAllQuizzes = async () => {
           include: {
             options: true,
           },
+          orderBy: {
+            id: 'asc'
+          }
         },
       },
     });
@@ -84,6 +87,7 @@ const startQuiz = async (quiz_id:number) => {
         where: { id: quiz_id,  },
         data: {
             is_running: true,
+            current_question_index: 0
         },
     });
 }
@@ -93,48 +97,55 @@ const finishQuiz = async (quiz_id:number) => {
     where: { id: quiz_id },
     data: {
       is_running: false,
-      current_question_id: 0,
+      current_question_index: 0,
     },
   });
 }
 
-const nextQuestion = async (quiz_id:number) => {
+const nextQuestion = async (quiz_id: number) => {
   const currentQuiz = await getCurrentQuiz(quiz_id);
 
   const isQuizRunning = await getQuizIsRunning(currentQuiz.id);
-  if(!isQuizRunning){
+  if (!isQuizRunning) {
     throw new Error("Quiz not running");
   }
 
-  const questions = currentQuiz.questions
+  const questions = currentQuiz.questions;
 
-  if (!currentQuiz.current_question_id || currentQuiz.current_question_id === 0) {
-    const firstQuestion = questions[0];
-    if (!firstQuestion) throw new Error("Quiz has no questions");
+  const currentIndex = currentQuiz.current_question_index ?? 0;
+  const currentQuestion = questions[currentIndex];
 
-    return await db.quiz.update({
-      where: { id: quiz_id },
-      data: { current_question_id: firstQuestion.id },
+
+  if (currentQuestion) {
+    await db.question.update({
+      where: { id: currentQuestion.id },
+      data: { is_answered: true },
     });
   }
 
-  const currentIndex = questions.findIndex(
-    (q) => q.id === currentQuiz.current_question_id
-  );
+  const nextIndex = currentIndex + 1;
 
-  const nextQuestion = questions[currentIndex + 1];
-
-  //finish quiz if no next question
-  if (!nextQuestion) {
-    return await finishQuiz(quiz_id);
+  console.log(nextIndex);
+  
+  if (nextIndex >= questions.length) {
+   //end of quiz
+    return await db.quiz.update({
+      where: { id: quiz_id },
+      data: {
+        is_running: false,
+        total_answered: { increment: 1 },
+      },
+    });
   }
 
   return await db.quiz.update({
     where: { id: quiz_id },
-    data: { current_question_id: nextQuestion.id, total_answered: {increment: 1} },
+    data: {
+      current_question_index: nextIndex,
+      total_answered: { increment: 1 },
+    },
   });
-
-}
+};
 
 const previousQuestion = async (quiz_id: number) => {
   const currentQuiz = await getCurrentQuiz(quiz_id);
@@ -145,26 +156,22 @@ const previousQuestion = async (quiz_id: number) => {
   }
 
   const questions = currentQuiz.questions;
-
-  if (!currentQuiz.current_question_id || currentQuiz.current_question_id === 0) {
-    throw new Error("No question is currently selected");
-  }
-
-  const currentIndex = questions.findIndex(
-    (q) => q.id === currentQuiz.current_question_id
-  );
+  const currentIndex = currentQuiz.current_question_index ?? 0;
 
   if (currentIndex <= 0) {
     throw new Error("Already at the first question");
   }
 
-  const previousQuestion = questions[currentIndex - 1];
+  const newIndex = currentIndex - 1;
 
   return await db.quiz.update({
     where: { id: quiz_id },
-    data: { current_question_id: previousQuestion.id },
+    data: {
+      current_question_index: newIndex,
+    },
   });
 };
+
 
 const deleteQuiz = async (quiz_id: number) => {
   return await db.quiz.delete({ where: { id: quiz_id } });
@@ -173,8 +180,8 @@ const deleteQuiz = async (quiz_id: number) => {
 const discardQuiz = async (quiz_id: number) => {
   return await db.quiz.update({
     where: { id: quiz_id },
-    data: { is_running: false, current_question_id: 0 },
+    data: { is_running: false, current_question_index: 0, total_answered: 0 },
   });
 };
 
-export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion, deleteQuiz, discardQuiz };
+export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion, deleteQuiz, discardQuiz, finishQuiz };
