@@ -45,4 +45,8 @@ const updateAchieviment = async (id: number, progress: number) => {
   });
 };
 
-export { getAllAchieviments, createAchieviment, updateAchieviment };
+const getAchievimentsByUserId = async (user_id: number) => {
+  return await db.achieviment.findMany({where: {user_id}});
+}
+
+export { getAllAchieviments, createAchieviment, updateAchieviment, getAchievimentsByUserId };

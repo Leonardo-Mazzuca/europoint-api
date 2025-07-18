@@ -1,7 +1,6 @@
 
 import { db } from "../src/utils/db.server";
 
-
 async function seed() {
     
     const area = await db.area.create({

@@ -124,8 +124,6 @@ const nextQuestion = async (quiz_id: number) => {
   }
 
   const nextIndex = currentIndex + 1;
-
-  console.log(nextIndex);
   
   if (nextIndex >= questions.length) {
    //end of quiz

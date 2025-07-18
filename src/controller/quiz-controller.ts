@@ -118,6 +118,7 @@ const endQuiz = async (req:Request,res:Response) => {
     }
 }
 
+
 export {
     getAllQuizzes,
     createQuiz,

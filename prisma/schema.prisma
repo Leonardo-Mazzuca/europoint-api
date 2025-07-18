@@ -34,7 +34,7 @@ model User {
   projects    Project[]
   newsletters NewsLetter[]
 
-total_points Int? @default(0)
+  total_points Int? @default(0)
 }
 
 model Area {

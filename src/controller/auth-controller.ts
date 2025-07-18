@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import * as UserService from "../service/user-service";
 import { Request, Response } from "express";
-import { verifyErrors } from "../helpers";
+import { createAchieviments, verifyErrors } from "../helpers";
 import { compare } from "bcrypt";
+import { db } from "../utils/db.server";
 
 const login = async (req: Request, res: Response) => {
   verifyErrors(req, res);
@@ -30,6 +31,19 @@ const login = async (req: Request, res: Response) => {
     }
 
     const token = jwt.sign({ user_id: user.id }, secret);
+
+    const userDontHasAchievimentsAssigned = await db.user.findFirst({
+      where: {
+        id: user.id,
+        achieviments: {
+          none: {},
+        },
+      },
+    })
+
+    if(userDontHasAchievimentsAssigned) {
+      await createAchieviments(user.id);
+    }
 
     return res.status(200).json({
       user,
@@ -60,6 +74,9 @@ const newUser = async (req: Request, res: Response) => {
       phone_number,
       area_id,
     });
+
+    await createAchieviments(user.id);
+
     return res.status(201).json(user);
   } catch (error: any) {
     console.log("Error creating user: ", error);
@@ -87,5 +104,6 @@ const uploadAvatar = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error uploading avatar" });
   }
 };
+
 
 export { login, newUser, uploadAvatar };

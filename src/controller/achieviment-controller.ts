@@ -47,8 +47,21 @@ const updateAchieviment = async (req: Request, res: Response) => {
     }
 }
 
+const getCurrentUserAchieviments = async (req: Request, res: Response) => {
+    try {
+
+        const user_id = await Helpers.decodeToken(req);
+
+        const achieviments = await AchievimentService.getAchievimentsByUserId(user_id);
+        return res.status(200).json(achieviments);
+    } catch (error) {
+        return res.status(500).json({ message: "Error getting achieviments" });
+    }
+}
+
 export {
     getAllAchieviments,
     createAchieviment,
-    updateAchieviment
+    updateAchieviment,
+    getCurrentUserAchieviments
 }
