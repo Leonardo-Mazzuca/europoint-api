@@ -1,5 +1,5 @@
 
-import { verifyErrors } from '../helpers';
+import { decodeToken, verifyErrors } from '../helpers';
 import * as PostService from '../service/post-service';
 import { Request, Response } from "express";
 
@@ -31,9 +31,9 @@ const createPost = async (req:Request, res: Response) => {
     verifyErrors(req,res);
 
     try {
-
-        const {user_id, title, content, images, area_id} = req.body;
-        const newPost = await PostService.createPost({user_id, title, content, images, area_id});
+        const user_id = await decodeToken(req);
+        const {title, content, area_id, images} = req.body;
+        const newPost = await PostService.createPost({images,user_id,title, content, area_id});
         return res.status(201).json(newPost);
         
     } catch (error) {
@@ -70,6 +70,7 @@ const deletePost = async (req:Request, res: Response) => {
         return res.status(500).json({ message: "Error deleting post" });
     }
 }
+
 
 
 export {

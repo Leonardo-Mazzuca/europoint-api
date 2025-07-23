@@ -39,7 +39,7 @@ const createPost = async ({
   content,
   area_id,
   user_id,
-  images,
+  images
 }: CreatePostInput & {user_id: number, area_id: number}) => {
   return await db.post.create({
     data: {
@@ -65,5 +65,7 @@ const updatePost = async (
 const deletePost = async (id: number) => {
   return await db.post.delete({ where: { id } });
 };
+
+const uploadPostImage = async () => {};
 
 export { getAllPosts, createPost, getPostById, updatePost, deletePost };

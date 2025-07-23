@@ -32,7 +32,11 @@ const getAllProjects = async () => {
 }
 
 const getSingleProject = async (id: number) => {
-    return await db.project.findMany();
+    return await db.project.findFirst({
+      where: {
+        id
+      }
+    });
 }
 
 const createProject = async ({

@@ -9,7 +9,7 @@ projectRouter.get("/all", ProjectController.getAllProjects);
 projectRouter.get("/:id", ProjectController.getSingleProject);
 projectRouter.post(
   "/",
-  ProjectValidator.projectCreateValidation,
+  // ProjectValidator.projectCreateValidation,
   ProjectController.createProject
 );
 projectRouter.put(

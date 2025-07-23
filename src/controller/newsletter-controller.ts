@@ -30,11 +30,13 @@ const createNewsLetter = async (req:Request, res: Response) => {
 
         const user_id = await decodeToken(req);
 
-        const {area_id, content, title} = req.body;
-        const newNewsLetter = await NewsLetterService.createNewsletter({area_id, user_id, content, title});
+        const {area_id, content, title, images} = req.body;
+        const newNewsLetter = await NewsLetterService.createNewsletter({area_id, user_id, content, title, images});
         return res.status(201).json(newNewsLetter);
         
     } catch (error) {
+        console.log(error);
+        
         return res.status(500).json({ message: "Error creating newsletter" });
     }
 }
@@ -73,7 +75,6 @@ const updateNewsletterImages = (req:Request, res: Response) => {
 
         const {id} = req.params;
         const images = req.files as Express.Multer.File[];
-        console.log('Arquivos:', images);
         
         const newNewsLetter = NewsLetterService.uploadNewsletterImages(parseInt(id), images);
         return res.status(200).json(newNewsLetter);

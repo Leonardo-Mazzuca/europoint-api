@@ -5,7 +5,8 @@ type CreateNewsLetterInput = {
     area_id: number;
     content: string;
     title: string;
-    user_id: number
+    user_id: number;
+    images: string[]
 }
 const getAllNewsLetters = async () => {
     return await db.newsLetter.findMany({
@@ -31,12 +32,13 @@ const getSingleNewsLetter = async (id: number) => {
 }
 
 const createNewsletter = async ({
-    area_id,content,user_id,title
+    area_id,content,user_id,title, images
 }: CreateNewsLetterInput) => {
     return await db.newsLetter.create({ 
         data: {
             content,
             title,
+            images,
             area: { connect: { id: area_id } },
             user: {connect: {id: user_id}}
         }
