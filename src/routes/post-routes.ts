@@ -17,3 +17,5 @@ postRouter.put(
 );
 postRouter.delete("/all", PostController.deleteAllPosts);
 postRouter.delete("/:id", PostController.deletePost);
+postRouter.put('/like/:id', PostController.likePost);
+postRouter.put('/views/:id', PostController.updateViews);

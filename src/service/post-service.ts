@@ -1,4 +1,3 @@
-
 import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.server";
 
@@ -16,17 +15,17 @@ const getAllPosts = async () => {
         select: {
           avatar: true,
           username: true,
-          id: true
-        }
+          id: true,
+        },
       },
       area: {
         select: {
           name: true,
           id: true,
-          contact_email: true
-        }
+          contact_email: true,
+        },
       },
-    }
+    },
   });
 };
 
@@ -39,8 +38,8 @@ const createPost = async ({
   content,
   area_id,
   user_id,
-  images
-}: CreatePostInput & {user_id: number, area_id: number}) => {
+  images,
+}: CreatePostInput & { user_id: number; area_id: number }) => {
   return await db.post.create({
     data: {
       title,
@@ -71,8 +70,7 @@ const deleteAllPosts = async () => {
 };
 
 const incrementTotalSaved = async (id: number) => {
-
-  const item = await db.post.findUnique({where: {id}});
+  const item = await db.post.findUnique({ where: { id } });
 
   if (!item) throw new Error("Post not found");
 
@@ -83,23 +81,46 @@ const incrementTotalSaved = async (id: number) => {
 };
 
 const decrementTotalSaved = async (id: number) => {
-
-  const item = await db.post.findUnique({where: {id}});
+  const item = await db.post.findUnique({ where: { id } });
 
   if (!item) throw new Error("Post not found");
 
-  if(item.total_saved && item.total_saved <= 0){
+  if (item.total_saved && item.total_saved <= 0) {
     return await db.post.update({
       where: { id: item.id },
       data: { total_saved: { set: 0 } },
-    })
+    });
   }
-  
+
   return await db.post.update({
     where: { id: item.id },
     data: { total_saved: { decrement: 1 } },
   });
 };
 
+const likePost = async (id: number) => {
+  return await db.post.update({
+    where: { id },
+    data: { total_likes: { increment: 1 } },
+  });
+};
 
-export { getAllPosts, createPost, getPostById, updatePost, deletePost, incrementTotalSaved, decrementTotalSaved, deleteAllPosts };
+const updateViews = async (id: number) => {
+  return await db.post.update({
+    where: { id },
+    data: { total_views: { increment: 1 } },
+  });
+}
+
+export {
+  getAllPosts,
+  createPost,
+  getPostById,
+  updatePost,
+  deletePost,
+  incrementTotalSaved,
+  decrementTotalSaved,
+  deleteAllPosts,
+  likePost,
+  updateViews
+};

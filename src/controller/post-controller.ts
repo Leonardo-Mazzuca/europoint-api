@@ -82,7 +82,31 @@ const deleteAllPosts = async (req:Request, res: Response) => {
     }
 }
 
+const likePost = async (req:Request, res: Response) => {
 
+    try {
+
+        const {id} = req.params;
+        const post = await PostService.likePost(parseInt(id));
+        return res.status(200).json(post);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error liking post" });
+    }
+}
+
+const updateViews = async (req:Request, res: Response) => {
+
+    try {
+
+        const {id} = req.params;
+        const post = await PostService.updateViews(parseInt(id));
+        return res.status(200).json(post);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error updating views" });
+    }
+}
 
 export {
     getAllPosts,
@@ -90,5 +114,7 @@ export {
     createPost,
     updatePost,
     deletePost,
-    deleteAllPosts
+    deleteAllPosts,
+    likePost,
+    updateViews
 }
