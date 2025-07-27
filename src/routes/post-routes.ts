@@ -15,4 +15,5 @@ postRouter.put(
   PostValidator.postEditValidation,
   PostController.updatePost
 );
+postRouter.delete("/all", PostController.deleteAllPosts);
 postRouter.delete("/:id", PostController.deletePost);

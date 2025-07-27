@@ -108,11 +108,85 @@ const updateUserPoints = async (req: Request, res: Response) => {
   }
 }
 
+const savePost = async (req: Request, res: Response) => {
+
+  try {
+
+    const {post_type, id} = req.body;
+    const user_id = await decodeToken(req);
+
+    switch (post_type) {
+      case 'post':
+        const isPostSaved = await UserService.isItemSaved(user_id,parseInt(id), 'post');
+        if(isPostSaved) {
+          return res.status(400).json({ message: "Post already saved" });
+        }
+        await UserService.saveItem(user_id,parseInt(id), 'post');
+        return res.status(200).json({ message: "Post saved successfully" });
+      case 'newsletter':
+        const isNewsletterSaved = await UserService.isItemSaved(user_id,parseInt(id), 'newsletter');
+        if(isNewsletterSaved) {
+          return res.status(400).json({ message: "Newsletter already saved" });
+        }
+        await UserService.saveItem(user_id,parseInt(id), 'newsletter');
+        return res.status(200).json({ message: "Newsletter saved successfully" });
+      case 'prject':
+        const isProjectSaved = await UserService.isItemSaved(user_id,parseInt(id), 'project');
+        if(isProjectSaved) {
+          return res.status(400).json({ message: "Newsletter already saved" });
+        }
+
+        await UserService.saveItem(user_id,parseInt(id), 'project');
+        return res.status(200).json({ message: "Project saved successfully" });
+      default: 
+        return res.status(400).json({ message: "Invalid post type" });
+    }
+    
+  
+    
+  } catch (error) {
+    return res.status(500).json({ message: "Error saving post" });
+  }
+
+}
+
+export const unSavePost = async (req: Request, res: Response) => {
+
+  try {
+
+    const {post_type, id} = req.body;
+    const user_id = await decodeToken(req);
+
+    switch (post_type) {
+      case 'post':
+        await UserService.unSaveItem(user_id,parseInt(id), 'post');
+        return res.status(200).json({ message: "Post unsaved successfully" });
+      case 'newsletter':
+        await UserService.unSaveItem(user_id,parseInt(id), 'newsletter');
+        return res.status(200).json({ message: "Newsletter unsaved successfully" });
+      case 'prject':
+        await UserService.unSaveItem(user_id,parseInt(id), 'project');
+        return res.status(200).json({ message: "Project unsaved successfully" });
+      default: 
+        return res.status(400).json({ message: "Invalid post type" });
+    }
+    
+  
+    
+  } catch (error) {
+    return res.status(500).json({ message: "Error unsaving post" });
+  }
+
+}
+
+
+
 export {
   editUser,
   deleleUser,
   getUsers,
   getCurrentUser,
   updateAvatar,
-  updateUserPoints
+  updateUserPoints,
+  savePost
 }

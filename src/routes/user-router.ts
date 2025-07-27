@@ -21,3 +21,11 @@ userRouter.post(
   AuthController.uploadAvatar
 );
 
+userRouter.post(
+  "/save",
+  UserController.savePost
+)
+userRouter.post(
+  "/un-save",
+  UserController.unSavePost
+)

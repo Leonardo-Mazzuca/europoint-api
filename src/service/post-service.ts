@@ -66,6 +66,40 @@ const deletePost = async (id: number) => {
   return await db.post.delete({ where: { id } });
 };
 
-const uploadPostImage = async () => {};
+const deleteAllPosts = async () => {
+  return await db.post.deleteMany();
+};
 
-export { getAllPosts, createPost, getPostById, updatePost, deletePost };
+const incrementTotalSaved = async (id: number) => {
+
+  const item = await db.post.findUnique({where: {id}});
+
+  if (!item) throw new Error("Post not found");
+
+  return await db.post.update({
+    where: { id: item.id },
+    data: { total_saved: { increment: 1 } },
+  });
+};
+
+const decrementTotalSaved = async (id: number) => {
+
+  const item = await db.post.findUnique({where: {id}});
+
+  if (!item) throw new Error("Post not found");
+
+  if(item.total_saved && item.total_saved <= 0){
+    return await db.post.update({
+      where: { id: item.id },
+      data: { total_saved: { set: 0 } },
+    })
+  }
+  
+  return await db.post.update({
+    where: { id: item.id },
+    data: { total_saved: { decrement: 1 } },
+  });
+};
+
+
+export { getAllPosts, createPost, getPostById, updatePost, deletePost, incrementTotalSaved, decrementTotalSaved, deleteAllPosts };

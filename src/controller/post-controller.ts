@@ -71,6 +71,17 @@ const deletePost = async (req:Request, res: Response) => {
     }
 }
 
+const deleteAllPosts = async (req:Request, res: Response) => {
+    try {
+
+        const deletedPosts = await PostService.deleteAllPosts();
+        return res.status(200).json(deletedPosts);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error deleting posts" });
+    }
+}
+
 
 
 export {
@@ -78,5 +89,6 @@ export {
     getPostById,
     createPost,
     updatePost,
-    deletePost
+    deletePost,
+    deleteAllPosts
 }
