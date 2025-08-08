@@ -9,7 +9,7 @@ newsLetterRouter.get("/all", NewsLetterController.getAllNewsLetters);
 newsLetterRouter.get("/:id", NewsLetterController.getSingleNewsLetter);
 newsLetterRouter.post(
   "/",
-  PostValidator.postCreateValidation,
+  newsletterUploadConfig.array("images"),
   NewsLetterController.createNewsLetter
 );
 newsLetterRouter.put(
@@ -18,8 +18,3 @@ newsLetterRouter.put(
   NewsLetterController.editNewsLetter
 );
 newsLetterRouter.delete("/:id", NewsLetterController.deleteNewsLetter);
-newsLetterRouter.post(
-  "/images/:id",
-  newsletterUploadConfig.array("images"),
-  NewsLetterController.updateNewsletterImages
-);

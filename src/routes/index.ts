@@ -9,6 +9,7 @@ import { teamRouter } from "./team-routes";
 import { programRouter } from "./program-routes";
 import { quizRouter } from "./quiz-routes";
 import { achievimentRouter } from "./achieviment-routes";
+import { ideaRouter } from "./idea-routes";
 
 export const router = express.Router();
 
@@ -23,3 +24,4 @@ router.use('/teams', teamRouter);
 router.use('/program',programRouter);
 router.use('/quiz',quizRouter);
 router.use('/achieviment',achievimentRouter);
+router.use('/ideas',ideaRouter)

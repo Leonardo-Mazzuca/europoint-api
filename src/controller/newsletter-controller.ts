@@ -30,8 +30,22 @@ const createNewsLetter = async (req:Request, res: Response) => {
 
         const user_id = await decodeToken(req);
 
-        const {area_id, content, title, images} = req.body;
-        const newNewsLetter = await NewsLetterService.createNewsletter({area_id, user_id, content, title, images});
+        const reqNewsletter = req.body;
+        const reqImages = req.files as Express.Multer.File[] ?? [];
+
+        const images = reqImages.map(image => {
+            return {
+                path: image.filename
+            }
+        })
+
+        const newsletter = {
+            ...reqNewsletter,
+            images: images,
+            area_id: Number(reqNewsletter.area_id),
+            user_id
+        }
+        const newNewsLetter = await NewsLetterService.createNewsletter(newsletter);
         return res.status(201).json(newNewsLetter);
         
     } catch (error) {
@@ -70,19 +84,7 @@ const deleteNewsLetter = async (req:Request, res: Response) => {
     }
 }
 
-const updateNewsletterImages = (req:Request, res: Response) => {
-    try {
 
-        const {id} = req.params;
-        const images = req.files as Express.Multer.File[];
-        
-        const newNewsLetter = NewsLetterService.uploadNewsletterImages(parseInt(id), images);
-        return res.status(200).json(newNewsLetter);
-        
-    } catch (error) {
-        return res.status(500).json({ message: "Error updating newsletter images" });
-    }
-}
 
 export {
     getAllNewsLetters,
@@ -90,5 +92,4 @@ export {
     editNewsLetter,
     deleteNewsLetter,
     getSingleNewsLetter,
-    updateNewsletterImages
 }

@@ -31,12 +31,31 @@ const createPost = async (req:Request, res: Response) => {
     verifyErrors(req,res);
 
     try {
+
         const user_id = await decodeToken(req);
-        const {title, content, area_id, images} = req.body;
-        const newPost = await PostService.createPost({images,user_id,title, content, area_id});
+        const reqPost = req.body;
+        const reqImages = req.files as Express.Multer.File[] ?? []
+
+
+        const images = reqImages.map(image => {
+            return {
+                path: image.filename
+            }
+        })
+
+
+        const post = {
+            ...reqPost,
+            images,
+            area_id: Number(reqPost.area_id),
+            user_id
+        }
+
+        const newPost = await PostService.createPost(post);
         return res.status(201).json(newPost);
         
     } catch (error) {
+        console.log('Error: ', error);
         return res.status(500).json({ message: "Error creating post" });
     }
 

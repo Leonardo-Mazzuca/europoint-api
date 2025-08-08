@@ -31,6 +31,8 @@ model User {
   posts                Post[]
   followed_areas       Area[]        @relation("UserFollowsAreas")
 
+  idea Idea []
+
   projects    Project[]
   newsletters NewsLetter[]
 
@@ -48,6 +50,7 @@ model Area {
   newsletters NewsLetter[]
   teams       Team[]
   followers   User[]       @relation("UserFollowsAreas")
+
 }
 
 model Post {
@@ -60,16 +63,23 @@ model Post {
   area        Area     @relation(fields: [area_id], references: [id])
   total_likes Int?     @default(0)
   total_views Int?     @default(0)
-  images      String[]
+  images      PostImage[]
   created_at  DateTime @default(now())
   total_saved Int?     @default(0)
+}
+
+model PostImage {
+  id      Int      @id @default(autoincrement())
+  post_id Int
+  post    Post     @relation(fields: [post_id], references: [id])
+  path   String
 }
 
 model Project {
   id          Int      @id @default(autoincrement())
   title       String
   content     String
-  image       String
+  image       ProjectImage[]
   user        User     @relation(fields: [user_id], references: [id])
   user_id     Int
   team_id     Int
@@ -80,11 +90,18 @@ model Project {
   created_at  DateTime @default(now())
 }
 
+model ProjectImage {
+  id      Int      @id @default(autoincrement())
+  project_id Int
+  project    Project     @relation(fields: [project_id], references: [id])
+  path   String
+}
+
 model NewsLetter {
   id          Int      @id @default(autoincrement())
   total_likes Int?     @default(0)
   total_views Int?     @default(0)
-  images      String[]
+  images      NewsletterImage[]
   content     String
   area_id     Int
   area        Area     @relation(fields: [area_id], references: [id])
@@ -92,6 +109,13 @@ model NewsLetter {
   user_id     Int
   title       String
   created_at  DateTime @default(now())
+}
+
+model NewsletterImage {
+  id      Int      @id @default(autoincrement())
+  newsletter_id Int
+  newsletter    NewsLetter     @relation(fields: [newsletter_id], references: [id])
+  path   String
 }
 
 model Team {
@@ -152,4 +176,13 @@ model Achieviment {
   user_id     Int
   user        User     @relation(fields: [user_id], references: [id])
   completed   Boolean? @default(false)
+}
+
+model Idea {
+  id Int @id @default(autoincrement())
+  title String
+  description String
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int
+  created_at DateTime @default(now())
 }

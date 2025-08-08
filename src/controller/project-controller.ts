@@ -62,12 +62,28 @@ const createProject = async (req: Request, res: Response) => {
 
     try {
 
-        const {title, content, image, members_ids,area_id, team_id} = req.body;
-        
+        const reqProject = req.body;
         const user_id = await decodeToken(req);
+        const reqImage = req.file as Express.Multer.File ?? "";
 
-        const project = await ProjectService.createProject({title, content, image, members_ids,area_id,team_id,user_id});
-        return res.status(201).json(project);
+        const image = {
+            path: reqImage.filename
+        }
+
+        const members_ids = JSON.parse(reqProject.members_ids);
+
+        
+        const project = {
+            ...reqProject,
+            image,
+            area_id: Number(reqProject.area_id),
+            team_id: Number(reqProject.team_id),
+            members_ids,
+            user_id
+        }
+
+        const newProject = await ProjectService.createProject(project);
+        return res.status(201).json(newProject);
         
     } catch (error) {
         console.log("Error creating project: ", error);
@@ -76,23 +92,7 @@ const createProject = async (req: Request, res: Response) => {
     }
 }
 
-const uploadProjectImage = async (req: Request, res: Response) => {
-    try {
 
-        const {id} = req.params;
-        const project_image_file = req.file as Express.Multer.File;
-
-        if(!project_image_file){
-            return res.status(400).json({ message: "Project image not found" });
-        }
-        
-        const project = await ProjectService.uploadProjectImage(parseInt(id), project_image_file);
-        return res.status(200).json(project);
-        
-    } catch (error) {
-        return res.status(500).json({ message: "Error uploading project image" });
-    }
-}
 
 export {
     getAllProjects,
@@ -100,5 +100,4 @@ export {
     createProject,
     updateProject,
     deleteProject,
-    uploadProjectImage
 }

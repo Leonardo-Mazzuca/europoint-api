@@ -8,12 +8,15 @@ type CreateProjectInput = {
     user_id: number;
     title: string;
     members_ids: number[];
-    image: string;
+    image: Prisma.ProjectImageCreateInput;
   };
   
 
 const getAllProjects = async () => {
     return await db.project.findMany({
+      orderBy: {
+        created_at: 'desc'      
+      },
       include: {
         user: {
           select: {
@@ -26,8 +29,12 @@ const getAllProjects = async () => {
             name: true,
             id: true
           }
+        },
+        image: {
+          
         }
-      }
+      },
+      
     });
 }
 
@@ -52,7 +59,9 @@ const createProject = async ({
       data: {
         title,
         content,
-        image,
+        image: {
+          create: image
+        },
         area: {
           connect: { id: area_id }
         },
@@ -63,7 +72,6 @@ const createProject = async ({
           connect: { id: user_id }
         },
         members_ids,
-        
       }
     });
   };
@@ -76,12 +84,7 @@ const deleteProject = async (id: number) => {
     return await db.project.delete({ where: { id } });
 }
 
-const uploadProjectImage = async (id: number, image: Express.Multer.File) => {
-    return await db.project.update({
-      where: { id },
-      data: { image: image.filename },
-    });
-}
+
 
 export {
     getAllProjects,
@@ -89,5 +92,5 @@ export {
     createProject,
     updateProject,
     deleteProject,
-    uploadProjectImage
+
 }

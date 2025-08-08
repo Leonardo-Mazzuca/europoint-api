@@ -6,10 +6,13 @@ type CreateNewsLetterInput = {
     content: string;
     title: string;
     user_id: number;
-    images: string[]
+    images: Prisma.NewsletterImageCreateInput[]
 }
 const getAllNewsLetters = async () => {
     return await db.newsLetter.findMany({
+        orderBy: {
+            created_at: 'desc',
+        },
         include:{
             user: {
                 select: {
@@ -22,7 +25,8 @@ const getAllNewsLetters = async () => {
                     name: true,
                     id: true
                 }
-            }
+            },
+            images: true
         }
     });
 }
@@ -38,7 +42,9 @@ const createNewsletter = async ({
         data: {
             content,
             title,
-            images,
+            images: {
+                create: images
+            },
             area: { connect: { id: area_id } },
             user: {connect: {id: user_id}}
         }
@@ -53,16 +59,6 @@ const deleteNewsletter = async (id: number) => {
     return await db.newsLetter.delete({ where: { id } });
 }
 
-const uploadNewsletterImages = async (id:number, files: Express.Multer.File[]) => {
-    return await db.newsLetter.update({
-        where: {id},
-        data: {
-            images: {
-                push: files.map(file => file.filename)
-            }
-        }
-    })
-}
 
 export {
     getSingleNewsLetter,
@@ -70,5 +66,4 @@ export {
     updateNewsletter,
     deleteNewsletter,
     getAllNewsLetters,
-    uploadNewsletterImages
 }

@@ -10,6 +10,7 @@ projectRouter.get("/:id", ProjectController.getSingleProject);
 projectRouter.post(
   "/",
   // ProjectValidator.projectCreateValidation,
+  projectUploadConfig.single("image"),
   ProjectController.createProject
 );
 projectRouter.put(
@@ -19,8 +20,3 @@ projectRouter.put(
 );
 projectRouter.delete("/:id", ProjectController.deleteProject);
 
-projectRouter.post(
-  "/image/:id",
-  projectUploadConfig.single("image"),
-  ProjectController.uploadProjectImage
-);

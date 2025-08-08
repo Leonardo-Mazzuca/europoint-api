@@ -4,12 +4,15 @@ import { db } from "../utils/db.server";
 type CreatePostInput = {
   title: string;
   content: string;
-  images: string[];
+  images: Prisma.PostImageCreateInput[];
   area_id: number;
   user_id: number;
 };
 const getAllPosts = async () => {
   return await db.post.findMany({
+    orderBy: {
+      created_at: 'desc'
+    },
     include: {
       user: {
         select: {
@@ -25,6 +28,7 @@ const getAllPosts = async () => {
           contact_email: true,
         },
       },
+      images: true
     },
   });
 };
@@ -44,7 +48,9 @@ const createPost = async ({
     data: {
       title,
       content,
-      images,
+      images: {
+        create: images
+      },
       area: { connect: { id: area_id } },
       user: { connect: { id: user_id } },
     },

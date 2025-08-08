@@ -1,13 +1,14 @@
 import express from "express";
 import * as PostController from "../controller/post-controller";
 import * as PostValidator from "../validators/post-validator";
+import { postUploadConfig } from "../config/multer";
 export const postRouter = express.Router();
 
 postRouter.get("/all", PostController.getAllPosts);
 postRouter.get("/:id", PostController.getPostById);
 postRouter.post(
   "/",
-  PostValidator.postCreateValidation,
+  postUploadConfig.array('images'),
   PostController.createPost
 );
 postRouter.put(
