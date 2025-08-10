@@ -42,6 +42,9 @@ const getSingleProject = async (id: number) => {
     return await db.project.findFirst({
       where: {
         id
+      },
+      include: {
+        image: true
       }
     });
 }
@@ -85,6 +88,34 @@ const deleteProject = async (id: number) => {
 }
 
 
+const incrementTotalSaved = async (id: number) => {
+  const item = await db.project.findUnique({ where: { id } });
+
+  if (!item) throw new Error("Post not found");
+
+  return await db.project.update({
+    where: { id: item.id },
+    data: { total_saved: { increment: 1 } },
+  });
+};
+
+const decrementTotalSaved = async (id: number) => {
+  const item = await db.project.findUnique({ where: { id } });
+
+  if (!item) throw new Error("Post not found");
+
+  if (item.total_saved && item.total_saved <= 0) {
+    return await db.project.update({
+      where: { id: item.id },
+      data: { total_saved: { set: 0 } },
+    });
+  }
+
+  return await db.project.update({
+    where: { id: item.id },
+    data: { total_saved: { decrement: 1 } },
+  });
+};
 
 export {
     getAllProjects,
@@ -92,5 +123,7 @@ export {
     createProject,
     updateProject,
     deleteProject,
+    incrementTotalSaved,
+    decrementTotalSaved
 
 }

@@ -104,12 +104,45 @@ const decrementTotalSaved = async (id: number) => {
   });
 };
 
-const likePost = async (id: number) => {
+const togglePostsLike = async (postId: number, userId: number) => {
+  const alreadyLiked = await db.postLike.findUnique({
+    where: {
+      user_id_post_id: {
+        user_id: userId,
+        post_id: postId,
+      },
+    },
+  });
+
+  if (alreadyLiked) {
+    await db.postLike.delete({
+      where: {
+        user_id_post_id: {
+          user_id: userId,
+          post_id: postId,
+        },
+      },
+    });
+
+    return await db.post.update({
+      where: { id: postId },
+      data: { total_likes: { decrement: 1 } },
+    });
+  }
+
+  await db.postLike.create({
+    data: {
+      user_id: userId,
+      post_id: postId,
+    },
+  });
+
   return await db.post.update({
-    where: { id },
+    where: { id: postId },
     data: { total_likes: { increment: 1 } },
   });
 };
+
 
 const updateViews = async (id: number) => {
   return await db.post.update({
@@ -127,6 +160,6 @@ export {
   incrementTotalSaved,
   decrementTotalSaved,
   deleteAllPosts,
-  likePost,
+  togglePostsLike,
   updateViews
 };

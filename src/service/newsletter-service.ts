@@ -32,7 +32,7 @@ const getAllNewsLetters = async () => {
 }
 
 const getSingleNewsLetter = async (id: number) => {
-    return await db.newsLetter.findFirst({ where: { id } });
+    return await db.newsLetter.findFirst({ where: { id }, include: {images: true} });
 }
 
 const createNewsletter = async ({
@@ -59,6 +59,74 @@ const deleteNewsletter = async (id: number) => {
     return await db.newsLetter.delete({ where: { id } });
 }
 
+const incrementTotalSaved = async (id: number) => {
+    const item = await db.newsLetter.findUnique({ where: { id } });
+  
+    if (!item) throw new Error("Post not found");
+  
+    return await db.newsLetter.update({
+      where: { id: item.id },
+      data: { total_saved: { increment: 1 } },
+    });
+  };
+  
+  const decrementTotalSaved = async (id: number) => {
+    const item = await db.newsLetter.findUnique({ where: { id } });
+  
+    if (!item) throw new Error("Post not found");
+  
+    if (item.total_saved && item.total_saved <= 0) {
+      return await db.newsLetter.update({
+        where: { id: item.id },
+        data: { total_saved: { set: 0 } },
+      });
+    }
+  
+    return await db.newsLetter.update({
+      where: { id: item.id },
+      data: { total_saved: { decrement: 1 } },
+    });
+  };
+
+  const toggleNewsletterLike = async (newsletterId: number, userId: number) => {
+    const alreadyLiked = await db.newsletterLike.findUnique({
+      where: {
+        user_id_newsletter_id: {
+          user_id: userId,
+          newsletter_id: newsletterId,
+        },
+      },
+    });
+  
+    if (alreadyLiked) {
+      await db.newsletterLike.delete({
+        where: {
+          user_id_newsletter_id: {
+            user_id: userId,
+            newsletter_id: newsletterId,
+          },
+        },
+      });
+  
+      return await db.newsLetter.update({
+        where: { id: newsletterId },
+        data: { total_likes: { decrement: 1 } },
+      });
+    }
+  
+    await db.newsletterLike.create({
+      data: {
+        user_id: userId,
+        newsletter_id: newsletterId,
+      },
+    });
+  
+    return await db.newsLetter.update({
+      where: { id: newsletterId },
+      data: { total_likes: { increment: 1 } },
+    });
+  };
+  
 
 export {
     getSingleNewsLetter,
@@ -66,4 +134,7 @@ export {
     updateNewsletter,
     deleteNewsletter,
     getAllNewsLetters,
+    incrementTotalSaved,
+    decrementTotalSaved,
+    toggleNewsletterLike
 }

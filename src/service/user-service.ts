@@ -2,6 +2,8 @@ import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.server";
 import { hash } from "bcrypt";
 import * as PostService from './post-service';
+import * as NewsletterService from './newsletter-service';
+import * as ProjectService from './project-service';
 export type ItemType = 'post' | 'newsletter' | 'project'
 
 export const getUserByEmail = async (email: string) => {
@@ -26,7 +28,9 @@ export const getUserById = async (id: number) => {
           id: true,
         }
       },
-      followed_areas: true
+      followed_areas: true,
+      liked_posts: true,
+      liked_newsletters: true
     },
   });
 };
@@ -100,11 +104,13 @@ export const unSaveItem = async (id: number, post_id: number, item_type: ItemTyp
         data: { saved_posts_ids: { set: user.saved_posts_ids.filter((id) => id !== post_id) } },
       });
     case 'newsletter':
+      await NewsletterService.decrementTotalSaved(post_id);
       return await db.user.update({
         where: { id },
         data: { saved_newsletter_ids: { set: user.saved_newsletter_ids.filter((id) => id !== post_id) } },
       });
     case 'project':
+      await ProjectService.decrementTotalSaved(post_id);
       return await db.user.update({
         where: { id },
         data: { saved_projects_ids: { set: user.saved_projects_ids.filter((id) => id !== post_id) } },
@@ -133,11 +139,13 @@ export const saveItem = async (id: number, item_id: number, item_type: ItemType)
         data: { saved_posts_ids: { push: item_id } },
       });
     case 'newsletter':
+      await NewsletterService.incrementTotalSaved(item_id);
       return await db.user.update({
         where: { id },
         data: { saved_newsletter_ids: { push: item_id } },
       });
     case 'project':
+      await ProjectService.incrementTotalSaved(item_id);
       return await db.user.update({
         where: { id },
         data: { saved_projects_ids: { push: item_id } },

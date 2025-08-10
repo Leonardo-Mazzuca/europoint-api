@@ -37,6 +37,9 @@ model User {
   newsletters NewsLetter[]
 
   total_points Int? @default(0)
+
+  liked_newsletters NewsletterLike[]
+  liked_posts PostLike[]
 }
 
 model Area {
@@ -62,10 +65,20 @@ model Post {
   area_id     Int
   area        Area     @relation(fields: [area_id], references: [id])
   total_likes Int?     @default(0)
+  likes PostLike []
   total_views Int?     @default(0)
   images      PostImage[]
   created_at  DateTime @default(now())
   total_saved Int?     @default(0)
+}
+
+model PostLike {
+  id      Int      @id @default(autoincrement())
+  post_id Int
+  user_id Int
+  post    Post     @relation(fields: [post_id], references: [id])
+  user    User     @relation(fields: [user_id], references: [id])
+  @@unique([user_id, post_id]) 
 }
 
 model PostImage {
@@ -88,6 +101,7 @@ model Project {
   area        Area     @relation(fields: [area_id], references: [id])
   area_id     Int
   created_at  DateTime @default(now())
+  total_saved Int? @default(0)
 }
 
 model ProjectImage {
@@ -99,7 +113,8 @@ model ProjectImage {
 
 model NewsLetter {
   id          Int      @id @default(autoincrement())
-  total_likes Int?     @default(0)
+  total_likes Int?     @default(0) 
+  likes       NewsletterLike[]
   total_views Int?     @default(0)
   images      NewsletterImage[]
   content     String
@@ -109,6 +124,17 @@ model NewsLetter {
   user_id     Int
   title       String
   created_at  DateTime @default(now())
+  total_saved Int? @default(0)
+}
+
+model NewsletterLike {
+  id            Int         @id @default(autoincrement())
+  user_id       Int
+  newsletter_id Int
+  newsletter    NewsLetter  @relation(fields: [newsletter_id], references: [id])
+  user          User        @relation(fields: [user_id], references: [id])
+
+  @@unique([user_id, newsletter_id]) 
 }
 
 model NewsletterImage {

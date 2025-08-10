@@ -84,7 +84,18 @@ const deleteNewsLetter = async (req:Request, res: Response) => {
     }
 }
 
-
+const likeNewsletter = async (req:Request, res: Response) => {
+    try {
+        const {id} = req.params;
+        const user_id = await decodeToken(req);
+        const post = await NewsLetterService.toggleNewsletterLike(parseInt(id), user_id);
+        return res.status(200).json(post);
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error liking newsletter" });
+    }
+}
 
 export {
     getAllNewsLetters,
@@ -92,4 +103,5 @@ export {
     editNewsLetter,
     deleteNewsLetter,
     getSingleNewsLetter,
+    likeNewsletter
 }

@@ -18,3 +18,4 @@ newsLetterRouter.put(
   NewsLetterController.editNewsLetter
 );
 newsLetterRouter.delete("/:id", NewsLetterController.deleteNewsLetter);
+newsLetterRouter.put('/like/:id', NewsLetterController.likeNewsletter);

@@ -106,7 +106,8 @@ const likePost = async (req:Request, res: Response) => {
     try {
 
         const {id} = req.params;
-        const post = await PostService.likePost(parseInt(id));
+        const user_id = await decodeToken(req);
+        const post = await PostService.togglePostsLike(parseInt(id), user_id);
         return res.status(200).json(post);
         
     } catch (error) {
