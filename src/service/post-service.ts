@@ -46,7 +46,6 @@ const createPost = async ({
 }: CreatePostInput & { user_id: number; area_id: number }) => {
   return await db.post.create({
     data: {
-      title,
       content,
       images: {
         create: images
@@ -59,11 +58,11 @@ const createPost = async ({
 
 const updatePost = async (
   id: number,
-  { content, title, images, total_likes, total_views }: Prisma.PostUpdateInput
+  { content, images, total_likes, total_views }: Prisma.PostUpdateInput
 ) => {
   return await db.post.update({
     where: { id },
-    data: { content, title, images, total_likes, total_views },
+    data: { content, images, total_likes, total_views },
   });
 };
 

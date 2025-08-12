@@ -69,7 +69,7 @@ const updatePost = async (req:Request, res: Response) => {
 
         const {total_likes, total_views, images, title, content} = req.body
         const {id} = req.params;
-        const updatedPost = await PostService.updatePost(parseInt(id), {total_likes, total_views, images, title, content});
+        const updatedPost = await PostService.updatePost(parseInt(id), {total_likes, total_views, images, content});
         return res.status(200).json(updatedPost);
         
     } catch (error) {
