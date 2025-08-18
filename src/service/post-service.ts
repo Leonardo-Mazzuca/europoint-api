@@ -2,7 +2,6 @@ import { Prisma } from "@prisma/client";
 import { db } from "../utils/db.server";
 
 type CreatePostInput = {
-  title: string;
   content: string;
   images: Prisma.PostImageCreateInput[];
   area_id: number;
@@ -38,7 +37,6 @@ const getPostById = async (id: number) => {
 };
 
 const createPost = async ({
-  title,
   content,
   area_id,
   user_id,

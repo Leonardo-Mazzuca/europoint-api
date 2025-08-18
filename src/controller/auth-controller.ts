@@ -45,8 +45,10 @@ const login = async (req: Request, res: Response) => {
       await createAchieviments(user.id);
     }
 
+    const updated = await db.user.update({where: {id: user.id}, data: {login_count: {increment: 1}}});
+
     return res.status(200).json({
-      user,
+      user: updated,
       message: "Login realizado com sucesso",
       token,
     });

@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { Request,Response } from "express";
 import { validationResult } from "express-validator";
-import { Prisma } from "@prisma/client";
+import { AchievimentKey, Prisma } from "@prisma/client";
 import { db } from "../utils/db.server";
 
 const decodeToken = async (req: Request) => {
@@ -42,92 +42,104 @@ const createAchieviments = async (user_id: number) => {
     {
       title: "Olá, Você por aqui?",
       description: "Fez login pela primeira vez",
-      points: 10
+      points: 10,
+      key: AchievimentKey.FIRST_LOGIN
     },
     {
       title: "404: Erros encontrados!",
       description: "Acertou todas as perguntas do quiz",
-      points: 100
+      points: 100,
+      key: AchievimentKey.NO_ERRORS
     },
     {
       title: "São dias e dias...",
       description: "Errou uma questão do quiz pela primeira vez",
-      points: 10
+      points: 10,
+      key: AchievimentKey.MISS_ONE
     },
     {
       title: "O primeiro de muitos!",
       description: "Cadastrou um tipo de post",
-      points: 50
+      points: 50,
+      key: AchievimentKey.REGISTERED_POST
     },
     {
       title: "Daqui a pouco vai acabar a memória!",
       description: "Cadastrou 10 tipos de posts",
-      points: 200
+      points: 200,
+      key: AchievimentKey.REGISTERED_10_POST
     },
     {
       title: "Vai ficar famoso hein!",
       description: "Cadastrou 30 tipos de posts",
       points: 500,
+      key: AchievimentKey.REGISTERED_30_POST
     },
     {
       title: "Ta tudo bem querer mudar as vezes...",
       description: "Editou seus dados pela primeira vez",
-      points: 10
+      points: 10,
+      key: AchievimentKey.EDIT_PROFILE
     },
     {
       title: "Então você gosta de jogar?",
       description: "Jogou um quiz pela primeira vez",
-      points: 50
+      points: 50,
+      key: AchievimentKey.PLAYED_QUIZ
     },
     {
       title: "Está ficando um expert!",
       description: "Jogou um quiz 5 vezes",
-      points: 200
+      points: 200,
+      key: AchievimentKey.PLAYED_QUIZ_5
     },
     {
       title: "Quem é Einstein perto de você?",
       description: "Jogou um quiz 15 vezes",
-      points: 500
+      points: 500,
+      key: AchievimentKey.PLAYED_QUIZ_15
     },
     {
       title: "Uma leitura sempre é boa...",
       description: "Finalizou de ler um programa",
-      points: 50
+      points: 50,
+      key: AchievimentKey.READ_PROGRAM
     },
     {
       title: "Grande estudioso!",
       description: "Leu um tipo de programa 5 vezes",
-      points: 250
+      points: 250,
+      key: AchievimentKey.READ_5_PROGRAM
     },
     {
       title: "Com toda certeza, você é o nerd do grupo...",
       description: "Leu um tipo de programa 15 vezes",
-      points: 700
+      points: 700,
+      key: AchievimentKey.READ_15_PROGRAM
     },
     {
       title: "Há....então você precisa de uma ajuda?",
       description: "Perguntou uma questão para o bot de ajuda do quiz",
-      points: 100
-    },
-    {
-      title: "Há....então você precisa de uma ajuda?",
-      description: "Perguntou uma questão para o bot de ajuda do quiz",
-      points: 100
+      points: 100,
+      key: AchievimentKey.ASKED_BOT
     },
     {
       title: "Amor é amor né...",
       description: "Logou no app durante 10 dias seguidos",
-      points: 1000
+      points: 1000,
+      key: AchievimentKey.LOGGED_10_TIMES_IN_ROW
     },
     {
       title: "O bom usuário",
       description: "Logou no app 50 dias seguidos",
-      points: 5000
+      points: 5000,
+      key: AchievimentKey.LOGGED_50_TIMES_IN_ROW
     },
     {
       title: "Parabéns, você está viciado!",
       description: "Logou no app 100 dias seguidos",
-      points: 10000
+      points: 10000,
+      key: AchievimentKey.LOGGED_100_TIMES_IN_ROW
     },
   ];
 

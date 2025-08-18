@@ -6,5 +6,7 @@ export const achievimentRouter = express.Router();
 
 achievimentRouter.get('/all',AchievimentsController.getAllAchieviments);
 achievimentRouter.post('/',AchievimentsController.createAchieviment);
-achievimentRouter.put('/:id',AchievimentsController.updateAchieviment);
+achievimentRouter.put('/:key',AchievimentsController.updateAchieviment);
 achievimentRouter.get('/',AchievimentsController.getCurrentUserAchieviments);
+achievimentRouter.get('/:key', AchievimentsController.getAchievimentByKey);
+achievimentRouter.put('/edit/:key', AchievimentsController.editAchieviment);

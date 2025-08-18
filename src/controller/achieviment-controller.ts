@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import * as AchievimentService from '../service/achieviment-service';
 import * as Helpers from '../helpers'
+import { AchievimentKey } from "@prisma/client";
 const getAllAchieviments = async (req: Request, res: Response) => {
     try {
 
@@ -37,9 +38,10 @@ const updateAchieviment = async (req: Request, res: Response) => {
     try {
 
         const {progress} = req.body;
-        const {id} = req.params;
+        const {key} = req.params;
+        const user_id = await Helpers.decodeToken(req);
 
-        const achieviment = await AchievimentService.updateAchieviment(parseInt(id), progress);
+        const achieviment = await AchievimentService.updateAchieviment(user_id, progress, key as AchievimentKey);
         return res.status(200).json(achieviment);
         
     } catch (error: any) {
@@ -59,9 +61,37 @@ const getCurrentUserAchieviments = async (req: Request, res: Response) => {
     }
 }
 
+const getAchievimentByKey = async (req: Request, res: Response) => {
+    try {
+
+        const {key} = req.params;
+        const user_id = await Helpers.decodeToken(req);
+        const achieviment = await AchievimentService.getAchievimentByKey(user_id,key as AchievimentKey);
+        return res.status(200).json(achieviment);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error getting achieviment" });
+    }
+}
+
+const editAchieviment = async (req: Request, res: Response) => {
+    try {
+
+        const {key} = req.params;
+        const user_id = await Helpers.decodeToken(req);
+        const achieviment = await AchievimentService.editAchieviment(key as AchievimentKey, user_id, req.body);
+        return res.status(200).json(achieviment);
+        
+    } catch (error) {
+        return res.status(500).json({ message: "Error editing achieviment" });
+    }
+}
+
 export {
     getAllAchieviments,
     createAchieviment,
     updateAchieviment,
-    getCurrentUserAchieviments
+    getCurrentUserAchieviments,
+    getAchievimentByKey,
+    editAchieviment
 }

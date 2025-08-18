@@ -30,9 +30,8 @@ const getAllProjects = async () => {
             id: true
           }
         },
-        image: {
-          
-        }
+        image: true,
+        team: true
       },
       
     });
@@ -44,7 +43,8 @@ const getSingleProject = async (id: number) => {
         id
       },
       include: {
-        image: true
+        image: true,
+        team: true
       }
     });
 }
@@ -79,8 +79,8 @@ const createProject = async ({
     });
   };
 
-const updateProject = async (id: number, { title, content, image, members_ids }: Prisma.ProjectUpdateInput) => {
-    return await db.project.update({ where: { id }, data: { title, content,image,members_ids } });
+const updateProject = async (id: number, { title, content, image, members_ids, status }: Prisma.ProjectUpdateInput) => {
+    return await db.project.update({ where: { id }, data: { title, content,image,members_ids, status } });
 }
 
 const deleteProject = async (id: number) => {

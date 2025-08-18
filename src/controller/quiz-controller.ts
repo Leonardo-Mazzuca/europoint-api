@@ -1,6 +1,10 @@
 import {Request,Response} from 'express'
 import * as QuizService from '../service/quiz-service'
 import { decodeToken } from '../helpers';
+import * as AchievimentService from '../service/achieviment-service';
+import * as UserService from '../service/user-service';
+import { AchievimentKey } from '@prisma/client';
+import { db } from '../utils/db.server';
 const getAllQuizzes = async (req: Request, res: Response) => {
     try {
         const quizzes = await QuizService.getAllQuizzes();
@@ -106,9 +110,13 @@ const discardQuiz = async (req:Request,res:Response) => {
 }
 
 const endQuiz = async (req:Request,res:Response) => {
+    
     try {
         const {id} = req.params;
-        const quiz = await QuizService.finishQuiz(parseInt(id));
+
+        const user_id = await decodeToken(req);
+        const quiz = await QuizService.finishQuiz(user_id, parseInt(id));
+
         return res.status(200).json(quiz);
         
     } catch (error) {

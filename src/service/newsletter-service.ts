@@ -32,7 +32,7 @@ const getAllNewsLetters = async () => {
 }
 
 const getSingleNewsLetter = async (id: number) => {
-    return await db.newsLetter.findFirst({ where: { id }, include: {images: true} });
+    return await db.newsLetter.findFirst({ where: { id }, include: {images: true, user: true} });
 }
 
 const createNewsletter = async ({

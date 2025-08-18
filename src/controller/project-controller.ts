@@ -33,9 +33,9 @@ const updateProject = async (req: Request, res: Response) => {
     try {
 
         const {id} = req.params;
-        const {title, content, image, members_ids} = req.body;
+        const {title, content, image, members_ids, status} = req.body;
         
-        const project = await ProjectService.updateProject(parseInt(id), {title, content, image, members_ids});
+        const project = await ProjectService.updateProject(parseInt(id), {title, content, image, members_ids, status});
         return res.status(200).json(project);
         
     } catch (error) {

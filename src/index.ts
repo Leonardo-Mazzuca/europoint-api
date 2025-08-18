@@ -6,10 +6,13 @@ import dotenv from "dotenv";
 import { router } from "./routes";
 import { authRouter } from "./routes/auth-router";
 import path from "path";
+import { initSocket } from "./modules/socket";
 
 dotenv.config();
 
 const app = express();
+
+initSocket();
 
 app.use(cors({
     origin: [

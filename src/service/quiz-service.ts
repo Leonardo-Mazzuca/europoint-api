@@ -92,7 +92,15 @@ const startQuiz = async (quiz_id:number) => {
     });
 }
 
-const finishQuiz = async (quiz_id:number) => {
+const finishQuiz = async (user_id:number, quiz_id:number) => {
+
+  await db.user.updateMany({
+    where: { id: user_id },
+    data: {
+      played_quiz_count: { increment: 1 },
+    },
+  });
+  
   return await db.quiz.update({
     where: { id: quiz_id },
     data: {

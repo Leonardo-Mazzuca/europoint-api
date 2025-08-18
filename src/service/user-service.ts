@@ -30,7 +30,10 @@ export const getUserById = async (id: number) => {
       },
       followed_areas: true,
       liked_posts: true,
-      liked_newsletters: true
+      liked_newsletters: true,
+      posts: true,
+      newsletters: true,
+      projects: true
     },
   });
 };
@@ -68,11 +71,11 @@ export const uploadAvatar = async (id: number, avatar: Express.Multer.File) => {
 
 export const editUser = async (
   id: number,
-  { email, password, phone_number, username, total_points}: Prisma.UserCreateWithoutAreaInput
+  { email, password, phone_number, username, total_points, login_count, played_quiz_count}: Prisma.UserCreateWithoutAreaInput
 ) => {
   return await db.user.update({
     where: { id },
-    data: { email, password, phone_number, username, total_points },
+    data: { email, password, phone_number, username, total_points, login_count, played_quiz_count },
   });
 };
 

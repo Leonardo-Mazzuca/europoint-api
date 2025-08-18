@@ -40,6 +40,10 @@ model User {
 
   liked_newsletters NewsletterLike[]
   liked_posts PostLike[]
+
+  login_count Int? @default(0)
+
+  played_quiz_count Int? @default(0)
 }
 
 model Area {
@@ -87,6 +91,11 @@ model PostImage {
   path   String
 }
 
+enum ProjectStatus {
+  RUNNING
+  FINISHED
+}
+
 model Project {
   id          Int      @id @default(autoincrement())
   title       String
@@ -101,6 +110,7 @@ model Project {
   area_id     Int
   created_at  DateTime @default(now())
   total_saved Int? @default(0)
+status  ProjectStatus? @default(RUNNING)
 }
 
 model ProjectImage {
@@ -192,6 +202,34 @@ model QuestionOption {
   question    Question @relation(fields: [question_id], references: [id], onDelete: Cascade)
 }
 
+enum AchievimentKey {
+  //done
+  FIRST_LOGIN
+  //
+  NO_ERRORS
+  MISS_ONE
+  //done
+  REGISTERED_POST
+  REGISTERED_10_POST
+  REGISTERED_30_POST
+  //
+  EDIT_PROFILE
+  //done
+  PLAYED_QUIZ
+  PLAYED_QUIZ_5
+  PLAYED_QUIZ_15
+  //
+  READ_PROGRAM
+  READ_5_PROGRAM
+  READ_15_PROGRAM
+  ASKED_BOT
+  //done
+  LOGGED_10_TIMES_IN_ROW
+  LOGGED_50_TIMES_IN_ROW
+  LOGGED_100_TIMES_IN_ROW
+  //
+}
+
 model Achieviment {
   id          Int      @id @default(autoincrement())
   title       String
@@ -201,6 +239,9 @@ model Achieviment {
   user_id     Int
   user        User     @relation(fields: [user_id], references: [id])
   completed   Boolean? @default(false)
+  key         AchievimentKey?
+  @@unique([user_id, key])
+  updated_at  DateTime @default(now())
 }
 
 model Idea {
