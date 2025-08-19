@@ -126,6 +126,18 @@ const endQuiz = async (req:Request,res:Response) => {
     }
 }
 
+const deleteAllQuizzes = async (req:Request,res:Response) => {
+    try {
+        const quizzes = await QuizService.deleteAllQuizzes();
+        return res.status(200).json(quizzes);
+        
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error deleting all quizzes" });
+    }
+}
+
 
 export {
     getAllQuizzes,
@@ -136,5 +148,6 @@ export {
     previousQuestion,
     deleteQuiz,
     discardQuiz,
-    endQuiz
+    endQuiz,
+    deleteAllQuizzes
 }

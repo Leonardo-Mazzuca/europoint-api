@@ -31,8 +31,18 @@ const uploadProgramImage = async (req: Request, res: Response) => {
     }
 };
 
+const destroyPrograms = async (req: Request, res: Response) => {
+    try {
+        const programs = await ProgramService.destroyPrograms();
+        return res.status(200).json(programs);
+    } catch (error) {
+        return res.status(500).json({ message: "Error destroying programs" });
+    }
+}
+
 export {
     getAllPrograms,
     createProgram,
-    uploadProgramImage
+    uploadProgramImage,
+    destroyPrograms
 }

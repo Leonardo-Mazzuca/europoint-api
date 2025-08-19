@@ -31,6 +31,7 @@ const port = process.env.PORT || 3000;
 app.use('/api/europoint/v1/auth',authRouter);
 app.use('/api/europoint/v1/images',express.static(path.join(__dirname, ".." , "uploads")))
 app.use('/api/europoint/v1',router);
+app.use("/images",express.static(path.join(__dirname, "../public/images")))
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);

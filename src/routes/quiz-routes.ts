@@ -16,5 +16,6 @@ quizRouter.put("/discard/:id", QuizController.discardQuiz);
 quizRouter.put("/start/:id", QuizController.startQuiz);
 quizRouter.put("/next/:id", QuizController.nextQuestion);
 quizRouter.put("/prev/:id", QuizController.previousQuestion);
+quizRouter.delete("/all",QuizController.deleteAllQuizzes);
 quizRouter.delete("/:id", QuizController.deleteQuiz);
 quizRouter.put("/end/:id", QuizController.endQuiz);

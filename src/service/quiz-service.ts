@@ -183,6 +183,10 @@ const deleteQuiz = async (quiz_id: number) => {
   return await db.quiz.delete({ where: { id: quiz_id } });
 };
 
+const deleteAllQuizzes = async () => {
+  return await db.quiz.deleteMany({});
+};
+
 const discardQuiz = async (quiz_id: number) => {
   return await db.quiz.update({
     where: { id: quiz_id },
@@ -190,4 +194,4 @@ const discardQuiz = async (quiz_id: number) => {
   });
 };
 
-export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion, deleteQuiz, discardQuiz, finishQuiz };
+export { getAllQuizzes, createQuiz, uploadQuizImage, startQuiz, nextQuestion, previousQuestion, deleteQuiz, discardQuiz, finishQuiz, deleteAllQuizzes };

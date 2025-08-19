@@ -18,8 +18,13 @@ const uploadProgramImage = async (id: number, image: Express.Multer.File) => {
     return await db.program.update({ where: { id }, data: { image: image.filename } });
 }
 
+const destroyPrograms = async () => {
+    return await db.program.deleteMany();
+}
+
 export {
     getAllPrograms,
     createProgram,
-    uploadProgramImage
+    uploadProgramImage,
+    destroyPrograms
 }
