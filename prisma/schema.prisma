@@ -44,6 +44,8 @@ model User {
   login_count Int? @default(0)
 
   played_quiz_count Int? @default(0)
+
+  show_splash_again Boolean? @default(true)
 }
 
 model Area {

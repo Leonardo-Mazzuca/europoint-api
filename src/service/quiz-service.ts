@@ -42,7 +42,7 @@ const createQuiz = async (
         title: question.title,
         correct_answer: question.correct_answer,
         quiz: { connect: { id: createdQuiz.id } },
-        total_points: question.total_points
+        total_points: question.total_points,
       },
     });
 

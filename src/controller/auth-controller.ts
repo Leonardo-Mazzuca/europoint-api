@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import * as UserService from "../service/user-service";
 import { Request, Response } from "express";
-import { createAchieviments, createQuizzes, verifyErrors } from "../helpers";
+import { createAchieviments, verifyErrors } from "../helpers";
 import { compare } from "bcrypt";
 import { db } from "../utils/db.server";
 
@@ -44,8 +44,6 @@ const login = async (req: Request, res: Response) => {
     if(userDontHasAchievimentsAssigned) {
       await createAchieviments(user.id);
     }
-
-    await createQuizzes();
 
     const updated = await db.user.update({where: {id: user.id}, data: {login_count: {increment: 1}}});
 
