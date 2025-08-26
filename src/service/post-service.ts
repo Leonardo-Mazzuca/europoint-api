@@ -9,9 +9,7 @@ type CreatePostInput = {
 };
 const getAllPosts = async () => {
   return await db.post.findMany({
-    orderBy: {
-      created_at: 'desc'
-    },
+    orderBy: { id: 'desc' },
     include: {
       user: {
         select: {

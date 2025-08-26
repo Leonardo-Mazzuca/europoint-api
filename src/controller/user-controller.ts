@@ -21,15 +21,15 @@ const editUser = async (req: Request, res: Response) => {
       }
     }
 
-    const userEditAcheieviment = await AchievimentService.getAchievimentByKey(user_id, AchievimentKey.EDIT_PROFILE);
-    if(!userEditAcheieviment) {
-      return res.status(500).json({ message: "Error getting achieviment" });
-    }
+    // const userEditAcheieviment = await AchievimentService.getAchievimentByKey(user_id, AchievimentKey.EDIT_PROFILE);
+    // if(!userEditAcheieviment) {
+    //   return res.status(500).json({ message: "Error getting achieviment" });
+    // }
 
-    if(!userEditAcheieviment?.completed){ 
-      await AchievimentService.updateAchieviment(user_id, 100, AchievimentKey.EDIT_PROFILE);
-      sendNotification(String(user_id), userEditAcheieviment.title);
-    }
+    // if(!userEditAcheieviment?.completed){ 
+    //   await AchievimentService.updateAchieviment(user_id, 100, AchievimentKey.EDIT_PROFILE);
+    //   sendNotification(String(user_id), userEditAcheieviment.title);
+    // }
 
     const user = await UserService.editUser(user_id, { email, password, username, phone_number, avatar, total_points, login_count });
     return res.status(200).json(user);

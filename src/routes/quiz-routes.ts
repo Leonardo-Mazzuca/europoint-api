@@ -19,3 +19,12 @@ quizRouter.put("/prev/:id", QuizController.previousQuestion);
 quizRouter.delete("/all",QuizController.deleteAllQuizzes);
 quizRouter.delete("/:id", QuizController.deleteQuiz);
 quizRouter.put("/end/:id", QuizController.endQuiz);
+
+//get running quizzes
+quizRouter.get("/runnings", QuizController.getRunningQuizzes)
+//delete all running quizzes
+
+quizRouter.delete("/runnings/all", QuizController.deleteAllRunningQuizzes)
+
+//get quiz results
+quizRouter.get("/results", QuizController.getQuizResults)

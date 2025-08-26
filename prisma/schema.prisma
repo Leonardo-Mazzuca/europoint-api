@@ -46,6 +46,9 @@ model User {
   played_quiz_count Int? @default(0)
 
   show_splash_again Boolean? @default(true)
+
+  quiz_result QuizResult[]
+  running_quizzes RunningQuiz[]
 }
 
 model Area {
@@ -75,6 +78,7 @@ model Post {
   images      PostImage[]
   created_at  DateTime @default(now())
   total_saved Int?     @default(0)
+  is_demo Boolean? @default(false)
 }
 
 model PostLike {
@@ -112,7 +116,8 @@ model Project {
   area_id     Int
   created_at  DateTime @default(now())
   total_saved Int? @default(0)
-status  ProjectStatus? @default(RUNNING)
+  status  ProjectStatus? @default(RUNNING)
+  is_demo Boolean? @default(false)
 }
 
 model ProjectImage {
@@ -136,6 +141,7 @@ model NewsLetter {
   title       String
   created_at  DateTime @default(now())
   total_saved Int? @default(0)
+  is_demo Boolean? @default(false)
 }
 
 model NewsletterLike {
@@ -183,6 +189,29 @@ model Quiz {
   updated_at   DateTime @default(now())
   total_answered Int? @default(0)
   current_question_index Int? @default(0)
+  quiz_results QuizResult[]
+  running_quiz RunningQuiz[]
+}
+
+model QuizResult {
+  id        Int      @id @default(autoincrement())
+  quiz_id   Int
+  quiz      Quiz     @relation(fields: [quiz_id], references: [id], onDelete: Cascade)
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  total_points Int
+  total_right_answers Int
+}
+
+model RunningQuiz {
+  id        Int      @id @default(autoincrement())
+  quiz_id   Int
+  quiz      Quiz     @relation(fields: [quiz_id], references: [id], onDelete: Cascade)
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  current_points Int
+  total_right_answers Int
+  current_answer Int? @default(0)
 }
 
 model Question {

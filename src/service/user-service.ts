@@ -62,6 +62,10 @@ export const createUser = async ({
   });
 };
 
+export const createManyUsers = async (users: Prisma.UserCreateManyInput[]) => {
+  return await db.user.createMany({ data: users });
+}
+
 export const uploadAvatar = async (id: number, avatar: Express.Multer.File) => {
   return await db.user.update({
     where: { id },

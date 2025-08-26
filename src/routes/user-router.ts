@@ -6,7 +6,7 @@ import { userProfileUpload } from "../config/multer";
 
 export const userRouter = express.Router();
 
-userRouter.get("/all", UserController.getUsers);
+
 userRouter.get("/", UserController.getCurrentUser);
 
 userRouter.put(

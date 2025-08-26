@@ -27,3 +27,4 @@ authRouter.post(
   userProfileUpload.single('avatar'),
   AuthController.uploadAvatar
 )
+

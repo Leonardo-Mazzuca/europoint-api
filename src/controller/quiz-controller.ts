@@ -1,10 +1,6 @@
 import {Request,Response} from 'express'
 import * as QuizService from '../service/quiz-service'
 import { decodeToken } from '../helpers';
-import * as AchievimentService from '../service/achieviment-service';
-import * as UserService from '../service/user-service';
-import { AchievimentKey } from '@prisma/client';
-import { db } from '../utils/db.server';
 const getAllQuizzes = async (req: Request, res: Response) => {
     try {
         const quizzes = await QuizService.getAllQuizzes();
@@ -48,13 +44,15 @@ const startQuiz = async (req:Request,res:Response) => {
 
         const user_id = await decodeToken(req);
         const {id} = req.params;
-        const quiz = await QuizService.startQuiz(parseInt(id));
+        const quiz = await QuizService.startQuiz(user_id,parseInt(id));
         return res.status(200).json({
             quiz: quiz,
             message: `quiz: ${quiz.title} has started!`
         });
         
     } catch (error) {
+        console.log("Erro começando quiz: ", error);
+        
         return res.status(500).json({ message: "Error starting quiz" });
     }
 }
@@ -62,7 +60,10 @@ const startQuiz = async (req:Request,res:Response) => {
 const nextQuestion = async (req:Request,res:Response) => {
     try {
         const {id} = req.params;
-        const quiz = await QuizService.nextQuestion(parseInt(id));
+        const user_id = await decodeToken(req);
+        const {points, total_rights} = req.body
+
+        const quiz = await QuizService.nextQuestion(user_id,parseInt(id), points, total_rights);
         return res.status(200).json(quiz);
         
     } catch (error:any) {
@@ -113,9 +114,9 @@ const endQuiz = async (req:Request,res:Response) => {
     
     try {
         const {id} = req.params;
-
+        const {total_points, total_right_answers} = req.body
         const user_id = await decodeToken(req);
-        const quiz = await QuizService.finishQuiz(user_id, parseInt(id));
+        const quiz = await QuizService.finishQuiz(user_id, parseInt(id), total_points, total_right_answers);
 
         return res.status(200).json(quiz);
         
@@ -138,6 +139,44 @@ const deleteAllQuizzes = async (req:Request,res:Response) => {
     }
 }
 
+const getRunningQuizzes = async (req:Request,res:Response) => {
+    try {
+        const user_id = await decodeToken(req);
+        const quizzes = await QuizService.getRunningQuizzes(user_id);
+        return res.status(200).json(quizzes);
+        
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error getting running quizzes" });
+    }
+}
+
+const getQuizResults = async (req:Request,res:Response) => {
+    try {
+
+        const user_id = await decodeToken(req);
+        const results = await QuizService.getQuizResults(user_id);
+        return res.status(200).json(results);
+        
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error getting quiz results" });
+    }
+}
+
+const deleteAllRunningQuizzes = async (req:Request,res:Response) => {
+    try {
+        const quizzes = await QuizService.deleteAllRunningQuizzes();
+        return res.status(200).json(quizzes);
+        
+    } catch (error) {
+        console.log(error);
+        
+        return res.status(500).json({ message: "Error deleting all running quizzes" });
+    }
+}
 
 export {
     getAllQuizzes,
@@ -149,5 +188,8 @@ export {
     deleteQuiz,
     discardQuiz,
     endQuiz,
-    deleteAllQuizzes
+    deleteAllQuizzes,
+    getRunningQuizzes,
+    getQuizResults,
+    deleteAllRunningQuizzes
 }
