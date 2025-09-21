@@ -334,345 +334,350 @@ const createQuizzes = async () => {
 };
 
 async function seed() {
-  // await db.area.createMany({
-  //     data: [
-  //       {
-  //         name: "TI",
-  //         contact_email: "ti@eurofarma.com",
-  //       },
-  //       {
-  //         name: "RH",
-  //         contact_email: "rh@eurofarma.com",
-  //       },
-  //       {
-  //         name: "Marketing",
-  //         contact_email: "marketing@eurofarma.com",
-  //       },
-  //       {
-  //         name: "Comercial",
-  //         contact_email: "comercial@eurofarma.com",
-  //       },
-  //       {
-  //         name: "Financeiro",
-  //         contact_email: "financeiro@eurofarma.com",
-  //       },
-  //       {
-  //         name: "Logistica",
-  //         contact_email: "logistica@eurofarma.com",
-  //       },
-  //       {
-  //         name: "Compras",
-  //         contact_email: "compras@eurofarma.com",
-  //       },
-  //       {
-  //         name: "Qualidade",
-  //         contact_email: "qualidade@eurofarma.com",
-  //       },
-  //     ]
-  // });
+  await db.area.createMany({
+      data: [
+        {
+          name: "TI",
+          contact_email: "ti@eurofarma.com",
+        },
+        {
+          name: "RH",
+          contact_email: "rh@eurofarma.com",
+        },
+        {
+          name: "Marketing",
+          contact_email: "marketing@eurofarma.com",
+        },
+        {
+          name: "Comercial",
+          contact_email: "comercial@eurofarma.com",
+        },
+        {
+          name: "Financeiro",
+          contact_email: "financeiro@eurofarma.com",
+        },
+        {
+          name: "Logistica",
+          contact_email: "logistica@eurofarma.com",
+        },
+        {
+          name: "Compras",
+          contact_email: "compras@eurofarma.com",
+        },
+        {
+          name: "Qualidade",
+          contact_email: "qualidade@eurofarma.com",
+        },
+      ]
+  });
 
-  // const tiArea = await db.area.findFirst();
-  // const rhArea = await db.area.findFirst({ where: { name: "RH" } });
-  // const qualityArea = await db.area.findFirst({ where: { name: "Qualidade" } });
-  // const epiArea = await db.area.findFirst({ where: { name: "Logistica" } });
-  // const marketingArea = await db.area.findFirst({
-  //   where: { name: "Marketing" },
-  // });
+  const tiArea = await db.area.findFirst();
+  const rhArea = await db.area.findFirst({ where: { name: "RH" } });
+  const qualityArea = await db.area.findFirst({ where: { name: "Qualidade" } });
+  const epiArea = await db.area.findFirst({ where: { name: "Logistica" } });
+  const marketingArea = await db.area.findFirst({
+    where: { name: "Marketing" },
+  });
 
-  // if (!tiArea || !marketingArea || !rhArea || !qualityArea || !epiArea) return;
+  if (!tiArea || !marketingArea || !rhArea || !qualityArea || !epiArea) return;
 
-  //  const encryptedPass = await hash("123456",10);
+   const encryptedPass = await hash("123456",10);
 
-  //  await UserService.createManyUsers(
-  //   [
-  //     {area_id:tiArea.id, email: "mazzu@eurofarma.com", password: encryptedPass, username: "Mazzuca", phone_number: "123456789"},
-  //     {area_id:marketingArea.id, email: "livs@eurofarma.com", password: encryptedPass, username: "Livia Ga.", phone_number: "123456789"},
-  //     {area_id:tiArea.id, email: "arthur@eurofarma.com", password: encryptedPass, username: "Arthur", phone_number: "123456789"},
-  //     {area_id: marketingArea.id, email: "luis_miguel@eurofarma.com", password: encryptedPass, username: "Luis", phone_number: "123456789"},
-  //     {area_id: tiArea.id, email: "sophia@eurofarma.com", password: encryptedPass, username: "Sophia", phone_number: "123456789"},
-  //   ]
-  // );
+   await UserService.createManyUsers(
+    [
+      {area_id:tiArea.id, email: "mazzu@eurofarma.com", password: encryptedPass, username: "Mazzuca", phone_number: "123456789"},
+      {area_id:marketingArea.id, email: "livs@eurofarma.com", password: encryptedPass, username: "Livia Ga.", phone_number: "123456789"},
+      {area_id:tiArea.id, email: "arthur@eurofarma.com", password: encryptedPass, username: "Arthur", phone_number: "123456789"},
+      {area_id: marketingArea.id, email: "luis_miguel@eurofarma.com", password: encryptedPass, username: "Luis", phone_number: "123456789"},
+      {area_id: tiArea.id, email: "sophia@eurofarma.com", password: encryptedPass, username: "Sophia", phone_number: "123456789"},
+    ]
+  );
 
-  // const mazzuca = await db.user.findFirst({
-  //   where: { email: "mazzu@eurofarma.com" },
-  // });
-  // const livia = await db.user.findFirst({
-  //   where: { email: "livs@eurofarma.com" },
-  // });
-  // const sophia = await db.user.findFirst({
-  //   where: { email: "sophia@eurofarma.com" },
-  // });
-  // const arthur = await db.user.findFirst({
-  //   where: { email: "arthur@eurofarma.com" },
-  // });
-  // const luis = await db.user.findFirst({
-  //   where: { email: "luis_miguel@eurofarma.com" },
-  // });
+  const mazzuca = await db.user.findFirst({
+    where: { email: "mazzu@eurofarma.com" },
+  });
+  const livia = await db.user.findFirst({
+    where: { email: "livs@eurofarma.com" },
+  });
+  const sophia = await db.user.findFirst({
+    where: { email: "sophia@eurofarma.com" },
+  });
+  const arthur = await db.user.findFirst({
+    where: { email: "arthur@eurofarma.com" },
+  });
+  const luis = await db.user.findFirst({
+    where: { email: "luis_miguel@eurofarma.com" },
+  });
 
-  // if (!mazzuca || !livia || !sophia || !arthur || !luis) return;
+  if (!mazzuca || !livia || !sophia || !arthur || !luis) return;
 
-  // await db.team.createMany({
-  //   data: [
-  //     {
-  //       name: 'Grupo de TI',
-  //       area_id: tiArea.id,
-  //       members_ids: [mazzuca.id, sophia.id, arthur.id]
-  //     },
-  //     {
-  //       name: 'Grupo de marketing',
-  //       area_id: marketingArea.id,
-  //       members_ids: [livia.id, luis.id]
-  //     }
-  //   ]
-  // })
+  await db.team.createMany({
+    data: [
+      {
+        name: 'Grupo de TI',
+        area_id: tiArea.id,
+        members_ids: [mazzuca.id, sophia.id, arthur.id]
+      },
+      {
+        name: 'Grupo de marketing',
+        area_id: marketingArea.id,
+        members_ids: [livia.id, luis.id]
+      }
+    ]
+  })
 
-  // const firstTeam = await db.team.findFirst();
-  // const secondTeam = await db.team.findFirst({ where: { name: "Grupo de marketing" } });
+  const firstTeam = await db.team.findFirst();
+  const secondTeam = await db.team.findFirst({ where: { name: "Grupo de marketing" } });
   
-  // if(!firstTeam || !secondTeam) return;
-  // await db.program.createMany({
-  //   data: [
-  //     {
-  //       title: "CLIC",
-  //       description:
-  //         "O CLIC é um sistema interno voltado para comunicação e registro de informações corporativas, permitindo que colaboradores e gestores compartilhem atualizações, comunicados e documentos de forma centralizada. \n\nBenefícios: Melhora a comunicação interna, reduz erros de informação e mantém todos alinhados sobre as mudanças na empresa.\n\nTutorial de acesso:\n1. Acesse o portal interno pelo link: https://intranet.empresa.com/clic\n2. Faça login com seu usuário e senha corporativos.\n3. No menu lateral, clique em 'Comunicados' para ler as últimas atualizações.\n4. Use a opção 'Novo Registro' para adicionar comunicados ou documentos.\n5. Salve e confirme para que todos possam visualizar.\n\nMais informações: https://suporte.empresa.com/clic",
-  //       image: "/programs/clic.png"
-  //     },
-  //     {
-  //       title: "KAIZEN",
-  //       description:
-  //         "O KAIZEN é uma ferramenta de melhoria contínua que permite registrar sugestões, acompanhar indicadores de performance e implementar otimizações nos processos. \n\nBenefícios: Incentiva a inovação interna, melhora a eficiência operacional e reconhece colaboradores que trazem boas ideias.\n\nTutorial de acesso:\n1. Acesse o sistema pelo link: https://intranet.empresa.com/kaizen\n2. Entre com seu usuário e senha corporativos.\n3. Clique em 'Nova Sugestão' para registrar uma ideia de melhoria.\n4. Detalhe a proposta, anexando documentos ou imagens, se necessário.\n5. Acompanhe o status da sua sugestão na aba 'Minhas Ideias'.\n\nMais informações: https://suporte.empresa.com/kaizen",
-  //       image: "/programs/kaizen.png"
-  //     },
-  //     {
-  //       title: "SIMPLIFICA",
-  //       description:
-  //         "O SIMPLIFICA é um sistema criado para facilitar processos burocráticos e automatizar tarefas repetitivas, como aprovações, solicitações e relatórios. \n\nBenefícios: Reduz o tempo gasto com tarefas administrativas, aumenta a produtividade e garante mais agilidade nos fluxos internos.\n\nTutorial de acesso:\n1. Entre no portal: https://intranet.empresa.com/simplifica\n2. Faça login com suas credenciais corporativas.\n3. Selecione o processo que deseja agilizar no painel principal.\n4. Preencha as informações solicitadas e clique em 'Enviar'.\n5. Acompanhe o andamento na aba 'Meus Processos'.\n\nMais informações: https://suporte.empresa.com/simplifica",
-  //       image: "/programs/simplifica.png"
-  //     },
-  //   ],
-  //   skipDuplicates: true
-  // });
+  if(!firstTeam || !secondTeam) return;
+  await db.program.createMany({
+    data: [
+      {
+        title: "CLIC",
+        description:
+          "O CLIC é um sistema interno voltado para comunicação e registro de informações corporativas, permitindo que colaboradores e gestores compartilhem atualizações, comunicados e documentos de forma centralizada. \n\nBenefícios: Melhora a comunicação interna, reduz erros de informação e mantém todos alinhados sobre as mudanças na empresa.\n\nTutorial de acesso:\n1. Acesse o portal interno pelo link: https://intranet.empresa.com/clic\n2. Faça login com seu usuário e senha corporativos.\n3. No menu lateral, clique em 'Comunicados' para ler as últimas atualizações.\n4. Use a opção 'Novo Registro' para adicionar comunicados ou documentos.\n5. Salve e confirme para que todos possam visualizar.\n\nMais informações: https://suporte.empresa.com/clic",
+        image: "/programs/clic.png"
+      },
+      {
+        title: "KAIZEN",
+        description:
+          "O KAIZEN é uma ferramenta de melhoria contínua que permite registrar sugestões, acompanhar indicadores de performance e implementar otimizações nos processos. \n\nBenefícios: Incentiva a inovação interna, melhora a eficiência operacional e reconhece colaboradores que trazem boas ideias.\n\nTutorial de acesso:\n1. Acesse o sistema pelo link: https://intranet.empresa.com/kaizen\n2. Entre com seu usuário e senha corporativos.\n3. Clique em 'Nova Sugestão' para registrar uma ideia de melhoria.\n4. Detalhe a proposta, anexando documentos ou imagens, se necessário.\n5. Acompanhe o status da sua sugestão na aba 'Minhas Ideias'.\n\nMais informações: https://suporte.empresa.com/kaizen",
+        image: "/programs/kaizen.png"
+      },
+      {
+        title: "SIMPLIFICA",
+        description:
+          "O SIMPLIFICA é um sistema criado para facilitar processos burocráticos e automatizar tarefas repetitivas, como aprovações, solicitações e relatórios. \n\nBenefícios: Reduz o tempo gasto com tarefas administrativas, aumenta a produtividade e garante mais agilidade nos fluxos internos.\n\nTutorial de acesso:\n1. Entre no portal: https://intranet.empresa.com/simplifica\n2. Faça login com suas credenciais corporativas.\n3. Selecione o processo que deseja agilizar no painel principal.\n4. Preencha as informações solicitadas e clique em 'Enviar'.\n5. Acompanhe o andamento na aba 'Meus Processos'.\n\nMais informações: https://suporte.empresa.com/simplifica",
+        image: "/programs/simplifica.png"
+      },
+    ],
+    skipDuplicates: true
+  });
 
   //create demo posts
-  // await Promise.all([
-  //   db.post.create({
-  //     data: {
-  //       content:
-  //         "O sistema de vendas estará indisponível no dia 15/08, das 22h às 23h, para manutenção preventiva.",
-  //       area_id: tiArea.id,
-  //       user_id: mazzuca.id,
-  //       is_demo: true,
-  //       images: {
-  //         create: {
-  //           path: "/demo/posts/post-demo-1.jpg",
-  //         },
-  //       },
-  //     },
-  //   }),
-  //   db.post.create({
-  //     data: {
-  //       content:
-  //         "O RH informa que a campanha de vacinação contra a gripe será realizada no dia 20/08, das 9h às 17h, na sala de treinamentos.",
-  //       area_id: rhArea.id,
-  //       user_id: sophia.id,
-  //       is_demo: true,
-  //     },
-  //   }),
-  //   db.post.create({
-  //     data: {
-  //       content:
-  //         "A partir do próximo mês, todos os acessos aos sistemas internos deverão ser autenticados com duplo fator de verificação.",
-  //       area_id: tiArea.id,
-  //       user_id: livia.id,
-  //       is_demo: true,
-  //     },
-  //   }),
-  //   db.post.create({
-  //     data: {
-  //       content:
-  //         "A área de Qualidade convida todos os colaboradores para o treinamento obrigatório sobre Boas Práticas de Fabricação no dia 25/08.",
-  //       area_id: qualityArea.id,
-  //       user_id: mazzuca.id,
-  //       is_demo: true,
-  //       images: {
-  //         create: {
-  //           path: "/demo/posts/post-demo-2.jpg",
-  //         },
-  //       },
-  //     },
-  //   }),
-  //   db.post.create({
-  //     data: {
-  //       content:
-  //         "Todos os colaboradores que utilizam equipamentos de proteção individual devem comparecer ao almoxarifado até 18/08 para a troca obrigatória.",
-  //       area_id: epiArea.id,
-  //       user_id: mazzuca.id,
-  //       is_demo: true,
-  //     },
-  //   }),
-  // ]);
+  await Promise.all([
+    db.post.create({
+      data: {
+        content:
+          "O sistema de vendas estará indisponível no dia 15/08, das 22h às 23h, para manutenção preventiva.",
+        area_id: tiArea.id,
+        user_id: mazzuca.id,
+        is_demo: true,
+        images: {
+          create: {
+            path: "/demo/posts/post-demo-1.jpg",
+          },
+        },
+      },
+    }),
+    db.post.create({
+      data: {
+        content:
+          "O RH informa que a campanha de vacinação contra a gripe será realizada no dia 20/08, das 9h às 17h, na sala de treinamentos.",
+        area_id: rhArea.id,
+        user_id: sophia.id,
+        is_demo: true,
+      },
+    }),
+    db.post.create({
+      data: {
+        content:
+          "A partir do próximo mês, todos os acessos aos sistemas internos deverão ser autenticados com duplo fator de verificação.",
+        area_id: tiArea.id,
+        user_id: livia.id,
+        is_demo: true,
+      },
+    }),
+    db.post.create({
+      data: {
+        content:
+          "A área de Qualidade convida todos os colaboradores para o treinamento obrigatório sobre Boas Práticas de Fabricação no dia 25/08.",
+        area_id: qualityArea.id,
+        user_id: mazzuca.id,
+        is_demo: true,
+        images: {
+          create: {
+            path: "/demo/posts/post-demo-2.jpg",
+          },
+        },
+      },
+    }),
+    db.post.create({
+      data: {
+        content:
+          "Todos os colaboradores que utilizam equipamentos de proteção individual devem comparecer ao almoxarifado até 18/08 para a troca obrigatória.",
+        area_id: epiArea.id,
+        user_id: mazzuca.id,
+        is_demo: true,
+      },
+    }),
+  ]);
 
   //create demo newsletters
 
-  // await Promise.all([
-  //   db.newsLetter.create({
-  //     data: {
-  //       title: "Lançamento do Novo Medicamento CardioLife",
-  //       content:
-  //         "É com grande satisfação que anunciamos o lançamento do CardioLife, nosso novo medicamento voltado para o tratamento de doenças cardiovasculares. Após 4 anos de pesquisa e desenvolvimento, o produto apresentou resultados expressivos em estudos clínicos, oferecendo maior eficácia e menor incidência de efeitos colaterais em comparação às terapias convencionais. O CardioLife estará disponível no mercado a partir de 15/09, e nossa equipe de marketing já está preparando campanhas educativas para médicos e pacientes. Este é um marco importante para a nossa empresa e reforça nosso compromisso com a inovação e a saúde.",
-  //       area_id: 5,
-  //       is_demo: true,
-  //       user_id: mazzuca.id,
-  //     },
-  //   }),
-  //   db.newsLetter.create({
-  //     data: {
-  //       title: "Destaques do Mês – Agosto 2025",
-  //       content:
-  //         "O mês de agosto foi repleto de conquistas para a nossa organização. Entre os principais destaques, registramos um crescimento de 12% nas vendas nacionais, impulsionado pela boa aceitação de nossos novos suplementos vitamínicos. Também renovamos a certificação ISO 9001, reafirmando nosso compromisso com a qualidade. Além disso, fechamos novos contratos com distribuidores na América Latina, ampliando nossa presença internacional. Agradecemos a todos os colaboradores que contribuíram para este resultado, mostrando que o trabalho em equipe é a base do nosso sucesso.",
-  //       area_id: 6,
-  //       is_demo: true,
-  //       user_id: mazzuca.id,
-  //       images: {
-  //         create: {
-  //           path: "/demo/newsletter/newsletter-demo.jpg",
-  //         },
-  //       }
-  //     },
-  //   }),
-  //   db.newsLetter.create({
-  //     data: {
-  //       title: "Visão Estratégica – Entrevista com o CEO",
-  //       content:
-  //         "Em uma entrevista exclusiva para nossa newsletter, nosso CEO, Dr. Ricardo Almeida, compartilhou a visão da empresa para os próximos cinco anos. Entre as prioridades estão a ampliação do portfólio de medicamentos genéricos, a entrada em novas áreas terapêuticas e o fortalecimento da presença digital com serviços de teleatendimento. Ele destacou ainda a importância de manter investimentos robustos em pesquisa e inovação, bem como a valorização de nossos talentos internos. Segundo o CEO, 'o futuro do setor farmacêutico está diretamente ligado à personalização do tratamento e à integração da tecnologia com a saúde'.",
-  //       area_id: 6,
-  //       is_demo: true,
-  //       user_id: mazzuca.id,
-  //       images: {
-  //         create: {
-  //           path: "/demo/newsletter/newsletter-demo.jpg",
-  //         },
-  //       }
-  //     },
-  //   }),
-  //   db.newsLetter.create({
-  //     data: {
-  //       title: "Especial Saúde – Como Fortalecer a Imunidade no Inverno",
-  //       content:
-  //         "Com as temperaturas mais baixas, aumentam os riscos de gripes, resfriados e outras doenças respiratórias. Pensando nisso, nossa equipe de especialistas reuniu algumas orientações para manter sua saúde em dia. Uma alimentação balanceada, rica em frutas cítricas, vegetais verde-escuros e proteínas magras, é essencial para o bom funcionamento do sistema imunológico. A prática regular de exercícios físicos, aliada a um sono de qualidade, também contribui para a resistência do organismo. Não se esqueça de manter a hidratação, mesmo em dias frios, e de atualizar sua carteira de vacinação. Pequenos hábitos podem fazer uma grande diferença para a sua saúde e bem-estar.",
-  //       area_id: 7,
-  //       is_demo: true,
-  //       user_id: mazzuca.id,
-  //       images: {
-  //         create: {
-  //           path: "/demo/newsletter/newsletter-demo.jpg",
-  //         },
-  //       }
-  //     },
-  //   }),
-  //   db.newsLetter.create({
-  //     data: {
-  //       title: "Novos Talentos – Bem-vindos à Nossa Equipe",
-  //       content:
-  //         "Neste mês, tivemos a satisfação de receber novos profissionais que chegam para somar ao nosso time. São eles: Mariana Souza (Marketing), Lucas Pereira (Pesquisa e Desenvolvimento), Fernanda Lima (Qualidade) e Roberto Martins (TI). Cada um traz consigo experiências valiosas que certamente contribuirão para os nossos projetos futuros. Aproveitamos para informar que ainda estamos com vagas abertas nas áreas de logística, vendas e farmacovigilância. Interessados devem encaminhar currículo para o e-mail recrutamento@empresa.com até o dia 30/08.",
-  //       area_id: 2,
-  //       is_demo: true,
-  //       user_id: mazzuca.id,
-  //       images: {
-  //         create: {
-  //           path: "/demo/newsletter/newsletter-demo.jpg",
-  //         },
-  //       }
-  //     },
-  //   }),
-  // ]);
+  await Promise.all([
+    db.newsLetter.create({
+      data: {
+        title: "Lançamento do Novo Medicamento CardioLife",
+        content:
+          "É com grande satisfação que anunciamos o lançamento do CardioLife, nosso novo medicamento voltado para o tratamento de doenças cardiovasculares. Após 4 anos de pesquisa e desenvolvimento, o produto apresentou resultados expressivos em estudos clínicos, oferecendo maior eficácia e menor incidência de efeitos colaterais em comparação às terapias convencionais. O CardioLife estará disponível no mercado a partir de 15/09, e nossa equipe de marketing já está preparando campanhas educativas para médicos e pacientes. Este é um marco importante para a nossa empresa e reforça nosso compromisso com a inovação e a saúde.",
+        area_id: 5,
+        is_demo: true,
+        user_id: mazzuca.id,
+      },
+    }),
+    db.newsLetter.create({
+      data: {
+        title: "Destaques do Mês – Agosto 2025",
+        content:
+          "O mês de agosto foi repleto de conquistas para a nossa organização. Entre os principais destaques, registramos um crescimento de 12% nas vendas nacionais, impulsionado pela boa aceitação de nossos novos suplementos vitamínicos. Também renovamos a certificação ISO 9001, reafirmando nosso compromisso com a qualidade. Além disso, fechamos novos contratos com distribuidores na América Latina, ampliando nossa presença internacional. Agradecemos a todos os colaboradores que contribuíram para este resultado, mostrando que o trabalho em equipe é a base do nosso sucesso.",
+        area_id: 6,
+        is_demo: true,
+        user_id: mazzuca.id,
+        images: {
+          create: {
+            path: "/demo/newsletter/newsletter-demo.jpg",
+          },
+        }
+      },
+    }),
+    db.newsLetter.create({
+      data: {
+        title: "Visão Estratégica – Entrevista com o CEO",
+        content:
+          "Em uma entrevista exclusiva para nossa newsletter, nosso CEO, Dr. Ricardo Almeida, compartilhou a visão da empresa para os próximos cinco anos. Entre as prioridades estão a ampliação do portfólio de medicamentos genéricos, a entrada em novas áreas terapêuticas e o fortalecimento da presença digital com serviços de teleatendimento. Ele destacou ainda a importância de manter investimentos robustos em pesquisa e inovação, bem como a valorização de nossos talentos internos. Segundo o CEO, 'o futuro do setor farmacêutico está diretamente ligado à personalização do tratamento e à integração da tecnologia com a saúde'.",
+        area_id: 6,
+        is_demo: true,
+        user_id: mazzuca.id,
+        images: {
+          create: {
+            path: "/demo/newsletter/newsletter-demo.jpg",
+          },
+        }
+      },
+    }),
+    db.newsLetter.create({
+      data: {
+        title: "Especial Saúde – Como Fortalecer a Imunidade no Inverno",
+        content:
+          "Com as temperaturas mais baixas, aumentam os riscos de gripes, resfriados e outras doenças respiratórias. Pensando nisso, nossa equipe de especialistas reuniu algumas orientações para manter sua saúde em dia. Uma alimentação balanceada, rica em frutas cítricas, vegetais verde-escuros e proteínas magras, é essencial para o bom funcionamento do sistema imunológico. A prática regular de exercícios físicos, aliada a um sono de qualidade, também contribui para a resistência do organismo. Não se esqueça de manter a hidratação, mesmo em dias frios, e de atualizar sua carteira de vacinação. Pequenos hábitos podem fazer uma grande diferença para a sua saúde e bem-estar.",
+        area_id: 7,
+        is_demo: true,
+        user_id: mazzuca.id,
+        images: {
+          create: {
+            path: "/demo/newsletter/newsletter-demo.jpg",
+          },
+        }
+      },
+    }),
+    db.newsLetter.create({
+      data: {
+        title: "Novos Talentos – Bem-vindos à Nossa Equipe",
+        content:
+          "Neste mês, tivemos a satisfação de receber novos profissionais que chegam para somar ao nosso time. São eles: Mariana Souza (Marketing), Lucas Pereira (Pesquisa e Desenvolvimento), Fernanda Lima (Qualidade) e Roberto Martins (TI). Cada um traz consigo experiências valiosas que certamente contribuirão para os nossos projetos futuros. Aproveitamos para informar que ainda estamos com vagas abertas nas áreas de logística, vendas e farmacovigilância. Interessados devem encaminhar currículo para o e-mail recrutamento@empresa.com até o dia 30/08.",
+        area_id: 2,
+        is_demo: true,
+        user_id: mazzuca.id,
+        images: {
+          create: {
+            path: "/demo/newsletter/newsletter-demo.jpg",
+          },
+        }
+      },
+    }),
+  ]);
 
   //create projects demo
 
-  // await Promise.all([
-  //   db.project.create({
-  //     data: {
-  //       area_id: tiArea.id,
-  //       title: "Projeto Sistema Integrado de Estoque",
-  //       content:
-  //         "Estamos na fase final do desenvolvimento do novo sistema de gestão de estoque, que integrará informações da fábrica e dos centros de distribuição em tempo real. O objetivo é reduzir perdas e otimizar a reposição de insumos.",
-  //       team_id: firstTeam.id,
-  //       image: {
-  //         create: {
-  //           path: "/demo/projects/project-demo.jpg",
-  //         },
-  //       },
-  //       members_ids: [livia.id],
-  //       user_id: mazzuca.id
-  //     },
-  //   }),
-  //   db.project.create({
-  //     data: {
-  //       area_id: tiArea.id,
-  //       title: "Projeto Portal de Benefícios",
-  //       content:
-  //         "O time de RH está implementando um novo portal de benefícios, onde os colaboradores poderão consultar e gerenciar seus benefícios de forma simples e rápida, inclusive pelo celular.",
-  //       team_id: firstTeam.id,
-  //       image: {
-  //         create: {
-  //           path: "/demo/projects/project-demo.jpg",
-  //         },
-  //       },
-  //       members_ids: [livia.id],
-  //       user_id: mazzuca.id
-  //     },
-  //   }),
-  //   db.project.create({
-  //     data: {
-  //       area_id: tiArea.id,
-  //       title: "Projeto Automação do Envase",
-  //       content:
-  //         "A fábrica iniciou um projeto para automatizar parte da linha de envase, aumentando a produtividade e garantindo mais precisão na dosagem dos produtos.",
-  //       team_id: firstTeam.id,
-  //       image: {
-  //         create: {
-  //           path: "/demo/projects/project-demo.jpg",
-  //         },
-  //       },
-  //       members_ids: [livia.id],
-  //       user_id: mazzuca.id
-  //     },
-  //   }),
-  //   db.project.create({
-  //     data: {
-  //       area_id: tiArea.id,
-  //       title: "Projeto Dashboard de Indicadores",
-  //       content:
-  //         "Estamos desenvolvendo um dashboard de indicadores para acompanhamento de KPIs em tempo real, permitindo que líderes e gestores tenham acesso a dados estratégicos de forma rápida e visual.",
-  //       team_id: firstTeam.id,
-  //       image: {
-  //         create: {
-  //           path: "/demo/projects/project-demo.jpg",
-  //         },
-  //       },
-  //       members_ids: [livia.id],
-  //       status: ProjectStatus.FINISHED,
-  //       user_id: mazzuca.id
-  //     },
-  //   }),
-  //   db.project.create({
-  //     data: {
-  //       area_id: tiArea.id,
-  //       title: "Projeto App de Comunicação Interna",
-  //       content:
-  //         "O departamento de Comunicação está criando um novo aplicativo interno para engajamento, onde os colaboradores poderão interagir, enviar sugestões e acompanhar novidades da empresa.",
-  //       team_id: firstTeam.id,
-  //       image: {
-  //         create: {
-  //           path: "/demo/projects/project-demo.jpg",
-  //         },
-  //       },
-  //       members_ids: [livia.id],
-  //       user_id: mazzuca.id
-  //     },
-  //   }),
-  // ]);
+  await Promise.all([
+    db.project.create({
+      data: {
+        area_id: tiArea.id,
+        title: "Projeto Sistema Integrado de Estoque",
+        content:
+          "Estamos na fase final do desenvolvimento do novo sistema de gestão de estoque, que integrará informações da fábrica e dos centros de distribuição em tempo real. O objetivo é reduzir perdas e otimizar a reposição de insumos.",
+        team_id: firstTeam.id,
+        image: {
+          create: {
+            path: "/demo/project/project-demo.jpg",
+          },
+        },
+        members_ids: [livia.id],
+        user_id: mazzuca.id,
+        is_demo: true
+      },
+    }),
+    db.project.create({
+      data: {
+        area_id: tiArea.id,
+        title: "Projeto Portal de Benefícios",
+        content:
+          "O time de RH está implementando um novo portal de benefícios, onde os colaboradores poderão consultar e gerenciar seus benefícios de forma simples e rápida, inclusive pelo celular.",
+        team_id: firstTeam.id,
+        image: {
+          create: {
+            path: "/demo/project/project-demo.jpg",
+          },
+        },
+        members_ids: [livia.id],
+        user_id: mazzuca.id,
+        is_demo: true
+      },
+    }),
+    db.project.create({
+      data: {
+        area_id: tiArea.id,
+        title: "Projeto Automação do Envase",
+        content:
+          "A fábrica iniciou um projeto para automatizar parte da linha de envase, aumentando a produtividade e garantindo mais precisão na dosagem dos produtos.",
+        team_id: firstTeam.id,
+        image: {
+          create: {
+            path: "/demo/project/project-demo.jpg",
+          },
+        },
+        members_ids: [livia.id],
+        user_id: mazzuca.id,
+        is_demo: true
+      },
+    }),
+    db.project.create({
+      data: {
+        area_id: tiArea.id,
+        title: "Projeto Dashboard de Indicadores",
+        content:
+          "Estamos desenvolvendo um dashboard de indicadores para acompanhamento de KPIs em tempo real, permitindo que líderes e gestores tenham acesso a dados estratégicos de forma rápida e visual.",
+        team_id: firstTeam.id,
+        image: {
+          create: {
+            path: "/demo/project/project-demo.jpg",
+          },
+        },
+        members_ids: [livia.id],
+        status: ProjectStatus.FINISHED,
+        user_id: mazzuca.id,
+        is_demo: true
+      },
+    }),
+    db.project.create({
+      data: {
+        area_id: tiArea.id,
+        title: "Projeto App de Comunicação Interna",
+        content:
+          "O departamento de Comunicação está criando um novo aplicativo interno para engajamento, onde os colaboradores poderão interagir, enviar sugestões e acompanhar novidades da empresa.",
+        team_id: firstTeam.id,
+        image: {
+          create: {
+            path: "/demo/project/project-demo.jpg",
+          },
+        },
+        members_ids: [livia.id],
+        user_id: mazzuca.id,
+        is_demo: true
+      },
+    }),
+  ]);
   
 
   const quizzes = await db.quiz.findMany({where: {title: "Quiz CLIC", OR: [{title: "Quiz KAIZEN"}, {title: "Quiz SIMPLIFICA"}]}});
