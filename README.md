@@ -1,3 +1,6 @@
+> © 2025 Tech's Version — Este projeto é de uso exclusivo do grupo Tech's Version.  
+> Nenhuma cópia, modificação ou distribuição é permitida sem autorização prévia dos membros.
+
 ## 🇧🇷 PT-BR
 
 👋 Olá, Eurofarma! Sejam muito bem-vindos à API do aplicativo [EuroPoint](https://github.com/Leonardo-Mazzuca/euro-point-app)
@@ -237,3 +240,4 @@ ngrok http puerto_de_la_api
 3️⃣ Copia la URL generada por ngrok y colócala en el archivo .env del proyecto EuroPoint App
 
 De esta forma, la aplicación móvil podrá conectarse a la API ✅
+
